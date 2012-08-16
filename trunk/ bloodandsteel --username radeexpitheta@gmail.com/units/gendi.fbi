@@ -11,13 +11,13 @@
 	FootprintX=1;
 	FootprintZ=1;
 	BuildCostEnergy=0;
-	BuildCostMetal=0; 
+	BuildCostMetal=1; 
 	MaxDamage=18000;
 	DamageModifier=0.5; 
 	MaxWaterDepth=0;
 	MaxSlope=14;
 	EnergyUse=0;
-	BuildTime=0;
+	BuildTime=64;
 	WorkerTime=0;
 	BMcode=0;
 	Builder=0;
@@ -57,10 +57,11 @@
 	transportmass=900;
 
 	[customParams] 
-	{
+		{
 		toggle1=2;
 		toggle1on=Shield On;
 		toggle1off=Shield Off;
 		toggle1tooltip=Alert to Fight or Shield for Additional Armor;
-	}	
+		RequireTech=defendable;
+		}	
 	}

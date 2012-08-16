@@ -11,12 +11,12 @@
 	FootprintX=1;
 	FootprintZ=1;
 	BuildCostEnergy=0;
-	BuildCostMetal=0;
+	BuildCostMetal=1;
 	MaxDamage=7200;
 	MaxWaterDepth=0;
 	MaxSlope=14;
 	EnergyUse=0;
-	BuildTime=0;
+	BuildTime=64;
 	WorkerTime=0;
 	BMcode=0;
 	Builder=0;
@@ -66,5 +66,6 @@
 		toggle1on=DumbFire On;
 		toggle1off=DumbFire Off;
 	toggle1tooltip=Anti Air Guidence or Dumb Fire Artillery Mode;
+	RequireTech=defendable;
 	}
 	}

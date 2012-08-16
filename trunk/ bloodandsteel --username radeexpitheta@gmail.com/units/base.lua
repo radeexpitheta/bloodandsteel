@@ -14,9 +14,12 @@ unitDef = {
   canSubmerge         = false,
   category            = "BASE ARMORED TARGET",
   commander = true,
-  
+  	customParams        = {
+			ProvideTech = "1 navalbase",
+							},
   maxdamage = 10000,
   maxslope = 255,
+  metalmake = 999,
   explodeAs           = [[basedeath]],
   footprintX          = 5,
   footprintZ          = 7,

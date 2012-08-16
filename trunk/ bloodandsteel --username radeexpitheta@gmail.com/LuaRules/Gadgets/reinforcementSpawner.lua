@@ -10,9 +10,9 @@ function gadget:GetInfo()
 	}
 end
 
-local maxCharge=200 --was120 
-local startCharge=100 --was90
-local pointCharge=.1 --was .2
+local maxCharge=2000 --was120 
+local startCharge=1000 --was90
+local pointCharge=.5 --was .2
 
 local blutub=UnitDefNames.blutub.id
 local bluii=UnitDefNames.bluii.id
@@ -43,8 +43,7 @@ local port = UnitDefNames.port.id
 local CMD_RALLY=30002
 
 local bases= {
-	[base]=1.0,
-	[port]=1.0,
+	[base]=10.0,
 	--[redbase]=1.0,
 }
 
@@ -130,25 +129,12 @@ local weightSums = {    --calculated, and used to make sure the random function 
 
 -- not really used - just carrying this along as too lazy to remove at the moment (and rewriting may be easier)
 local squadSize= {
-	[blutub]=0,
-	[bluii]=0,
-	[bluvr]=0,
-	[bluvi]=0,
-	[bluvv]=0,
-	[bluar]=0,
-	[bluaa]=0,
 	[bluir]=0,
-	[bluid]=0,
+	[bluii]=0,
 	[bluiv]=0,
 	[bluia]=0,
-	[bluvd]=0,
-	[bluva]=0,
-	[bluai]=0,
-	[bluav]=0,
-	[bluad]=0,
-
+	[bluid]=0,
 }
-
 
 
 
