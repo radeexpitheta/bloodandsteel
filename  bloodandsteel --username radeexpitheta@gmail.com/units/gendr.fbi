@@ -10,12 +10,12 @@
 	FootprintX=1;
 	FootprintZ=1;
 	BuildCostEnergy=0;
-	BuildCostMetal=0;
+	BuildCostMetal=1;
 	MaxDamage=1200;
 	MaxWaterDepth=0;
 	MaxSlope=10;
 	EnergyUse=0;
-	BuildTime=0;
+	BuildTime=64;
 	WorkerTime=0;
 	BMcode=0;
 	Builder=0;
@@ -42,6 +42,7 @@
 		toggle1=2;
 		toggle1on=Jam Off;
 		toggle1off=Jam On;
-toggle1tooltip=Radar mode or Radar Jamming mode;
+		toggle1tooltip=Radar mode or Radar Jamming mode;
+		RequireTech=defendable;
 	}
 	}

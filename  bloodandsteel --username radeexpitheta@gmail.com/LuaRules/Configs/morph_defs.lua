@@ -8,11 +8,11 @@ local devolution = false
 local morphDefs = {
 
 blutub = {
-    [1] = {into = 'gendr', metal = 0, energy = 0, time = 30, facing = true,},
-    [2] = {into = 'gendi', metal = 0, energy = 0, time = 60, facing = true,},
-    [3] = {into = 'gendv', metal = 0, energy = 0, time = 90, facing = true,},
-    [4] = {into = 'genda', metal = 0, energy = 0, time = 90, facing = true,},
-    [5] = {into = 'gendd', metal = 0, energy = 0, time = 360, facing = true,},
+  --  [1] = {into = 'gendr', metal = 0, energy = 0, time = 30, facing = true,},
+  --  [2] = {into = 'gendi', metal = 0, energy = 0, time = 60, facing = true,},
+  --  [3] = {into = 'gendv', metal = 0, energy = 0, time = 90, facing = true,},
+  --  [4] = {into = 'genda', metal = 0, energy = 0, time = 90, facing = true,},
+  --  [5] = {into = 'gendd', metal = 0, energy = 0, time = 360, facing = true,},
   },
 }
 

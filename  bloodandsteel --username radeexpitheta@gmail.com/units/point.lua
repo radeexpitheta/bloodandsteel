@@ -13,7 +13,10 @@ unitDef = {
   collisionVolumeScales = "54 10 54",
   collisionvolumetest = 1,
 --  corpse              = [[DEAD]],
-
+	customParams        = {
+			ProvideTech = "defendable",
+			ProvideTechRange = 300,
+							},
   footprintX          = 8,
   footprintZ          = 8,
   yardmap = "oooyyooo oooyyooo oooyyooo yyyyyyyy yyyyyyyy oooyyooo oooyyooo oooyyooo",

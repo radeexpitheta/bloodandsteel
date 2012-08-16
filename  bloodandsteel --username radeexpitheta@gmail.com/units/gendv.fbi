@@ -11,12 +11,12 @@
 	FootprintX=1;
 	FootprintZ=1;
 	BuildCostEnergy=0;
-	BuildCostMetal=0;
+	BuildCostMetal=1;
 	MaxDamage=3200;
 	MaxWaterDepth=0;
 	MaxSlope=14;
 	EnergyUse=0;
-	BuildTime=0;
+	BuildTime=64;
 	WorkerTime=0;
 	BMcode=0;
 	Builder=0;
@@ -58,10 +58,11 @@
 	canFireControl=1;
 
 	[customParams] 
-	{
+		{
 		toggle1=2;
 		toggle1on=Flak On;
 		toggle1off=Flak Off;
-	toggle1tooltip=General Purpose or Anti Air Flak mode;
-	}
+		toggle1tooltip=General Purpose or Anti Air Flak mode;
+		RequireTech=defendable;
+		}
 	}
