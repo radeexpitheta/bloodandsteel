@@ -1,0 +1,143 @@
+[blui_dead]
+	{
+	world=All Worlds;
+	description=Wreckage;
+	category=heaps;
+	object=blui_dead.s3o;
+	footprintx=1;
+	footprintz=1;
+	height=0;
+	blocking=0;
+	hitdensity=1;
+	metal=0;
+	damage=1200;
+	reclaimable=0;
+	featurereclamate=smudge01;
+	seqnamereclamate=tree1reclamate;
+	}
+
+[blutub_dead]
+	{
+	world=All Worlds;
+	description=Wreckage;
+	category=heaps;
+	object=dumtruk_dead.s3o;
+	footprintx=1;
+	footprintz=1;
+	height=12;
+	blocking=1;
+	hitdensity=1;
+	metal=0;
+	damage=5000;
+	reclaimable=0;
+	featurereclamate=smudge01;
+	seqnamereclamate=tree1reclamate;
+	}
+
+[bluvr_dead]
+	{
+	world=All Worlds;
+	description=Wreckage;
+	category=heaps;
+	object=bluvr_dead.s3o;
+	footprintx=1;
+	footprintz=1;
+	height=12;
+	blocking=1;
+	hitdensity=1;
+	metal=0;
+	damage=5000;
+	reclaimable=0;
+	featurereclamate=smudge01;
+	seqnamereclamate=tree1reclamate;
+	}
+
+[bluvi_dead]
+	{
+	world=All Worlds;
+	description=Wreckage;
+	category=heaps;
+	object=bluvi_dead.s3o;
+	footprintx=1;
+	footprintz=1;
+	height=12;
+	blocking=1;
+	hitdensity=1;
+	metal=0;
+	damage=5000;
+	reclaimable=0;
+	featurereclamate=smudge01;
+	seqnamereclamate=tree1reclamate;
+	}
+
+[bluvv_dead]
+	{
+	world=All Worlds;
+	description=Wreckage;
+	category=heaps;
+	object=bluvv_dead.s3o;
+	footprintx=1;
+	footprintz=1;
+	height=12;
+	blocking=1;
+	hitdensity=1;
+	metal=0;
+	damage=8000;
+	reclaimable=0;
+	featurereclamate=smudge01;
+	seqnamereclamate=tree1reclamate;
+	}
+
+[bluvd_dead]
+	{
+	world=All Worlds;
+	description=Wreckage;
+	category=heaps;
+	object=bluvd_dead.s3o;
+	footprintx=1;
+	footprintz=1;
+	height=12;
+	blocking=1;
+	hitdensity=1;
+	metal=0;
+	damage=7000;
+	reclaimable=0;
+	featurereclamate=smudge01;
+	seqnamereclamate=tree1reclamate;
+	}
+
+[bluva_dead]
+	{
+	world=All Worlds;
+	description=Wreckage;
+	category=heaps;
+	object=bluva_dead.s3o;
+	footprintx=1;
+	footprintz=1;
+	height=12;
+	blocking=1;
+	hitdensity=1;
+	metal=0;
+	damage=5000;
+	reclaimable=0;
+	featurereclamate=smudge01;
+	seqnamereclamate=tree1reclamate;
+	}
+
+[heap]
+	{
+	world=All Worlds;
+	description=Wreckage;
+	category=heaps;
+	object=blui_dead.s3o;
+	footprintx=1;
+	footprintz=1;
+	height=0;
+	blocking=0;
+	hitdensity=1;
+	metal=0;
+	damage=1200;
+	reclaimable=0;
+	featurereclamate=smudge01;
+	seqnamereclamate=tree1reclamate;
+	}

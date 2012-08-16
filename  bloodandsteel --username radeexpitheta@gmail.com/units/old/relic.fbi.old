@@ -1,0 +1,52 @@
+[UNITINFO]
+{
+	Name=Supply Center;
+	Unitname=relic;
+	Description=Position squads nearby to increase your logistics charge;
+
+	shootme=0;
+	// Required Tags
+	BuildCostMetal=100;
+	ShowNanoFrame=0;
+	icontype=supply;
+	Category=NOTARGET;
+	FootprintX=8;
+	FootprintZ=8;
+	MaxSlope=255;
+	MaxDamage=20000;
+	ObjectName=rez.s3o;
+	SoundCategory=COMPUTER;
+	TEDClass=NOTARGET;
+
+	// Movement
+	CanMove=0;
+
+	// Airplane Moventment
+
+	// Buildings
+	yardmap=yyyooyyy yyyooyyy yyyooyyy ooooooo oooooooo yyyooyyy yyyooyyy yyyooyyy;
+
+	// Construction
+
+	// Resources
+
+	// Abilities
+	CanStop=1;
+
+	// Sight/Radar
+	RadarDistance=0;
+	SightDistance=0;
+
+	//airbase crap
+	showNanoSpray=0;
+	WorkerTime=200;
+	Builddistance=6;
+	IsAirBase=1;
+	activateWhenBuilt=1;
+	builder=1;
+  	onoffable=1;
+	sortbias=0;
+
+	// Weapons
+
+}

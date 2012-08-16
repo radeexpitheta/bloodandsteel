@@ -1,0 +1,21 @@
+piece base, foot, pole, flag, pad;
+
+Create() {
+	sleep 30;
+}
+
+QueryLandingPad(pad1)
+   {   pad1 = pad;      }
+   
+QueryNanoPiece(piecenum)
+{
+		piecenum = pad;
+}
+
+HitByWeaponId() {
+	return 0;
+}
+
+SetCharge(level) {
+	move pole to y-axis 56 * level speed [32];
+}

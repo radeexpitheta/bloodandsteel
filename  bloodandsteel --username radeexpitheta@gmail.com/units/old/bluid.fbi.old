@@ -1,0 +1,104 @@
+[UNITINFO]
+{
+	Name=Combat Engineerings;
+	Unitname=bluid;
+	Description=Counter Defense and Base;
+
+	// Required Tags
+	icontype=id;
+	BuildCostMetal=0;
+	Category=INF UNARMORED NOTAIR UNIT TARGET;
+	FootprintX=1;
+	FootprintZ=1;
+	MaxDamage=600; //4x 150
+	mass=300; //4 men 
+	IdleAutoHeal=50;
+	IdleTime=300;
+	ObjectName=bluid.s3o;
+	SoundCategory=infantry;
+	upright=1;
+	Corpse=blui_dead;	
+
+
+	// Movement
+	MovementClass=foot;
+	BrakeRate=0.05;
+	Acceleration=0.05;
+	CanMove=1;
+	MaxVelocity=0.5;
+	TurnRate=400;
+	turnInPlace=1;
+
+	// Airplane Moventment
+
+	// Buildings
+
+	// Construction
+	ShowNanoFrame=0;
+	LevelGround=0;
+
+	// Resources
+	EnergyMake=0;
+	EnergyStorage=0;
+	MetalStorage=0;
+	MetalMake=0;
+	Reclaimable=0;
+
+	// Abilities
+	CanAttack=1;
+	CanStop=1;
+ 	canFireControl=1;
+
+
+	// Sight/Radar
+	RadarDistance=0;
+	SightDistance=800;
+	SeismicSignature=0;
+	Stealth=1;
+	CloakCost=0;
+	mincloakdistance=200;	
+	initcloaked=0;
+	
+	// Weapons
+	Weapon1=bluidwpn1;
+	Weapon2=bluigun;
+	Weapon3=bluigun;
+	Weapon4=bluigun;
+	Weapon5=bluigun;
+	Weapon6=bluidwpn2; 	
+	weaponslaveto3=2;		
+	weaponslaveto4=2;
+	weaponslaveto5=2;	
+	BadTargetCategory=NOTARGET;	
+	BadTargetCategory1=NOTARGET;
+	BadTargetCategory2=NOTINF NOTARGET;
+	BadTargetCategory3=NOTINF NOTARGET;
+	BadTargetCategory4=NOTINF NOTARGET;
+	BadTargetCategory5=NOTINF NOTARGET;
+	BadTargetCategory6=INF VEH AIR NOTARGET;
+	OnlyTargetCategory1=TARGET;
+	OnlyTargetCategory2=INF TARGET;
+	OnlyTargetCategory3=INF TARGET;
+	OnlyTargetCategory4=INF TARGET;
+	OnlyTargetCategory5=INF TARGET;
+	OnlyTargetCategory6=DEF BASE;;
+	ExplodeAs=Death;
+	SelfDestructAs=Death;
+	NoChaseCategory=NOTARGET AIR;
+
+	// Tracks/Flares
+
+	// Watersettings
+
+	// Misc
+	SmoothAnim=1;
+
+	[customParams] 
+	{
+	toggle1=2;
+	toggle1on=Satchel On;
+	toggle1off=Satchel Off;
+toggle1tooltip=Satchel or Grenade mode;
+	}
+
+}

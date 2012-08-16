@@ -1,0 +1,58 @@
+[AfterBurner]
+{
+   [BitmapMuzzleFlame]
+   {
+	class = CBitmapMuzzleFlame;
+      
+	[properties]
+      	{
+         	dir = dir;
+         	colorMap=1 0.7 0 0.05	0 0 0 0; 
+          	size=2;
+          	length=12; //was 18
+          	sizeGrowth=1;
+          	ttl=1;
+          	frontOffset=0;
+          	sideTexture=CubeShot;
+		frontTexture=smokesmall;
+      	}
+   water=1;
+   air=1;
+   underwater=1;
+   ground=1;
+   count=1;
+   }
+}
+
+[FF_WINGTIPS]
+{
+	[smoke] {
+		class=CSimpleParticleSystem;
+		[properties]{
+			sizeGrowth=0.4 r0.2;
+			sizeMod=0.2;
+			pos=0, 0, 0;
+			emitVector=dir;
+			gravity=0, 0, 0;
+			colorMap=1 1 1 0.8 1 1 1 0.4 0 0 0 0;
+			Texture=smokesmall;
+			airdrag=0.2;
+			particleLife=4;
+			particleLifeSpread=6;
+			numParticles=1;
+			particleSpeed=i2;
+			particleSpeedSpread=1;
+			particleSize=1;
+			particleSizeSpread=1;
+			emitRot=0;
+			emitRotSpread=2;
+			directional=0;
+			alwaysVisible=0;
+		}
+		air=1;
+		water=1;
+		ground=1;
+		count=16;
+	}
+  }
+

@@ -1,0 +1,303 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece base, m1, sleeve, turret, m2, m3;
+static-var  aimer, restore_delay, gun1, gun2, ready;
+
+// Signal definitions
+#define SIG_AIM				2
+#define SIG_AIM2			4
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from base;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+
+deploy()
+{
+	aimer = 0;
+	turn turret to y-axis <0> speed <100.071429>;
+	turn sleeve to x-axis <0> speed <50.043956>;
+	sleep 2000;	
+	aimer = 1;
+}
+
+undeploy()
+{
+	aimer = 0;
+	turn turret to y-axis <0> speed <100.071429>;
+	turn sleeve to x-axis <0> speed <50.043956>;
+	sleep 2000;
+	aimer = 2;
+}
+
+Toggle(t,value) 
+{
+
+if(t==1)
+	{
+if(value==0)
+{
+call-script deploy();
+}
+
+if(value==1)
+{
+call-script undeploy();	
+}
+	}
+
+}
+
+Create()
+{
+	gun1 = 1;
+	gun2 = 1;
+	aimer = 1;
+	ready = 1;
+	start-script SmokeUnit();
+}
+
+SetMaxReloadTime(Func_Var_1)
+{
+	restore_delay = Func_Var_1 * 2;
+}
+
+RestoreAfterDelay()
+{
+	sleep restore_delay;	
+	turn turret to y-axis <0> speed <100.071429>;
+	turn sleeve to x-axis <0.000000> speed <50.043956>;
+}
+
+Reload1()
+{
+	sleep 12000;	
+	show m1;
+	ready = 1;
+}
+
+Reload2()
+{
+	sleep 12000;	
+	show m2;
+	ready = 1;
+}
+
+Reload3()
+{
+	sleep 12000;	
+	show m3;
+	ready = 1;
+}
+
+ReloadAll()
+{
+	sleep 12000;
+	show m1;
+	sleep 12000;
+	show m2;
+	sleep 8000;
+	show m3;
+	ready = 1;
+}
+
+AimFromPrimary(piecenum)
+{
+	piecenum = turret;
+}
+
+QueryPrimary(piecenum)
+{
+if (gun1 == 1)
+	{
+	piecenum = m3; //was m1 then 2 then 3
+	}
+if (gun1 == 2)
+	{
+	piecenum = m1;
+	}
+if (gun1 == 3)
+	{
+	piecenum = m2;
+	}
+}
+
+AimPrimary(heading, pitch)
+{
+	if (aimer == 1)
+	{
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	start-script restoreafterdelay();
+	turn turret to y-axis heading speed <400.071429>;
+	turn sleeve to x-axis <0.000000> - pitch speed <150.043956>;
+	wait-for-turn turret around y-axis;
+	wait-for-turn sleeve around x-axis;
+	return (1);
+	}
+}
+
+FirePrimary()
+{
+if (gun1 == 1)
+{
+hide m1;
+ready = 0;
+gun1 = 2;
+start-script reload1();
+return 0;
+}
+if (gun1 == 2)
+{
+hide m2;
+ready = 0;
+gun1 = 3;
+start-script reload2();
+return 0;
+}
+if (gun1 == 3)
+{
+hide m3;
+ready = 0;
+gun1 = 1;
+start-script reload3();
+return 0;
+}
+
+}
+
+AimWeapon2(heading, pitch)
+{
+	if (aimer < 2)
+	{
+	return 0;
+	}
+	if (aimer == 2 )
+	{
+	signal SIG_AIM2;
+	set-signal-mask SIG_AIM2;
+	start-script restoreafterdelay();
+	turn turret to y-axis heading speed <100.071429>;
+	turn sleeve to x-axis <0.000000> - pitch speed <50.043956>;
+	wait-for-turn turret around y-axis;
+	wait-for-turn sleeve around x-axis;
+		if ( ready == 1)
+		{
+		return (1);
+		}
+	}
+}
+
+Shot2()
+{
+if (gun2 == 3)
+	{
+	hide m3;
+	ready = 0;
+	start-script reloadall();
+	gun2 = 4;
+	}
+if (gun2 == 2)
+	{
+	hide m2;
+	gun2 = 3;
+	}
+if (gun2 == 1)
+	{	
+	hide m1; 
+	gun2 = 2;
+	}
+if (gun2 == 4)
+{
+gun2 = 1;
+}	
+}
+
+
+AimFromSecondary(piecenum)
+{
+	piecenum = turret;
+}
+
+QuerySecondary(piecenum)
+{
+if (gun2 == 1)
+	{
+	piecenum = m3; //was m1 then 2 then 3
+	}
+if (gun2 == 2)
+	{
+	piecenum = m1;
+	}
+if (gun2 == 3)
+	{
+	piecenum = m2;
+	}
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
+
+Killed(severity, corpsetype)
+{
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode m1 type BITMAPONLY | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode sleeve type BITMAPONLY | BITMAP3;
+		explode turret type BITMAPONLY | BITMAP5;
+		return (0);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode m1 type FALL | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode sleeve type FALL | BITMAP3;
+		explode turret type FALL | BITMAP5;
+		return (0);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 3;
+		explode m1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode sleeve type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+		return (0);
+	}
+	corpsetype = 3;
+	explode m1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode base type BITMAPONLY | BITMAP2;
+	explode sleeve type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode turret type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+}

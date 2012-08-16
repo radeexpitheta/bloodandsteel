@@ -1,0 +1,229 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, body, ramp1, ramp2, rampr1, rampr2, wake1, wake2, wake3, wake4, wake5, wake6,
+       wake7, wake8, load_shoulder, load_Arm, unload_shoulder, unload_Arm, drop;
+
+static-var  Static_Var_1, rampup, units_inside;
+
+// Signal definitions
+#define SIG_MOVE			2
+
+#ifndef BUSY 
+#define BUSY 6 
+#endif
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from base;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+StartDoorOpen()
+{
+	signal 2;
+	set-signal-mask 2;
+	rampup = 0; //down
+	turn ramp2 to x-axis <-90.021978> speed <120.021978>;
+	turn ramp1 to x-axis <55.021978> speed <80.021978>;
+	wait-for-turn ramp2 around x-axis;
+	wait-for-turn ramp1 around x-axis;
+	turn ramp2 to x-axis <-180.000000> speed <120.021978>;
+	turn ramp1 to x-axis <110.000000> speed <80.021978>;
+	wait-for-turn ramp2 around x-axis;
+	wait-for-turn ramp1 around x-axis;
+}
+
+Create()
+{
+	rampup = 1;
+	units_inside = 0;
+	start-script SmokeUnit();
+}
+
+StartMoving()
+{
+	signal SIG_MOVE;
+	set-signal-mask SIG_MOVE;
+	if (rampup == 0)
+		{
+	turn ramp2 to x-axis <-90.021978> speed <80.021978>;
+	turn ramp1 to x-axis <55.021978> speed <120.021978>;
+	sleep 400;
+	turn ramp2 to x-axis <0.000000> speed <100.021978>;
+	turn ramp1 to x-axis <0.000000> speed <100.021978>;
+	wait-for-turn ramp2 around x-axis;
+	wait-for-turn ramp1 around x-axis;
+	rampup = 1;
+		}
+	while( TRUE )
+	{		
+		if( Static_Var_1 <= 2 )
+		{
+			emit-sfx 5 from wake1;
+			emit-sfx 3 from wake2;
+			emit-sfx 5 from wake3;
+			emit-sfx 3 from wake4;
+			emit-sfx 5 from wake5;
+			emit-sfx 3 from wake6;
+			emit-sfx 3 from wake7;
+			emit-sfx 5 from wake8;
+			emit-sfx 3 from wake1;
+			emit-sfx 5 from wake2;
+			emit-sfx 3 from wake3;
+			emit-sfx 5 from wake4;
+			emit-sfx 3 from wake5;
+			emit-sfx 5 from wake6;
+			emit-sfx 5 from wake7;
+			emit-sfx 3 from wake8;
+		}
+		sleep 300;
+	}
+}
+
+StopMoving()
+{
+}
+
+setSFXoccupy(Func_Var_1)
+{
+	Static_Var_1 = Func_Var_1;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
+
+#define MAX_LOAD_RADIUS [80]
+#define MAX_UNLOAD_RADIUS [80]
+#define LOAD_TIME 8
+#define UNLOAD_TIME 8
+
+TransportPickup(id)
+	{
+	
+	//Abort if already filled up
+	if(units_inside>=1)
+		{
+		return;
+		}
+		call-script StartDoorOpen();
+		sleep 1000;
+	// If close enough to allow loading:
+	if(get XZ_HYPOT(get PIECE_XZ(base) - get UNIT_XZ(id))<=MAX_LOAD_RADIUS)
+		{
+		
+		// we're busy loading, don't disturb:
+		set BUSY to 1;
+		// instantly move the magical invisible arm to the position where the unit to load is
+		turn load_shoulder to y-axis get XZ_ATAN(get PIECE_XZ(load_shoulder) - get UNIT_XZ(id)) now;
+		move load_arm to z-axis get XZ_HYPOT(get PIECE_XZ(load_shoulder) - get UNIT_XZ(id)) now;
+		move load_arm to y-axis get UNIT_Y(id) - get PIECE_Y(load_shoulder) now;
+		
+		attach-unit id to load_arm;
+		
+		//slowly move the arm, carrying the unit, to the spider center (moving to proper basket pos would be too complex for now)
+		move load_arm to z-axis 0 speed ((get XZ_HYPOT(get PIECE_XZ(load_shoulder) - get UNIT_XZ(id)))/(LOAD_TIME))*1000;
+		move load_arm to y-axis get PIECE_Y(base) - get PIECE_Y(load_shoulder) speed ((get PIECE_Y(base) - get UNIT_Y(id))/(LOAD_TIME))*1000;
+		sleep LOAD_TIME;
+		
+		// Let's not forget to update the counter
+		++units_inside;	
+		attach-unit id to drop;
+		
+	turn ramp2 to x-axis <-90.021978> speed <80.021978>;
+	turn ramp1 to x-axis <55.021978> speed <120.021978>;
+	wait-for-turn ramp2 around x-axis;
+	wait-for-turn ramp1 around x-axis;
+	turn ramp2 to x-axis <0.000000> speed <100.021978>;
+	turn ramp1 to x-axis <0.000000> speed <100.021978>;
+	wait-for-turn ramp2 around x-axis;
+	wait-for-turn ramp1 around x-axis;
+	rampup = 1;
+	
+		set BUSY to 0;
+		}
+	}
+
+
+TransportDrop(id,xz)
+	{
+		call-script StartDoorOpen();
+		sleep 1000;
+	// If close enough to allow unloading:
+	if(get XZ_HYPOT(get PIECE_XZ(base) - get UNIT_XZ(id))<=MAX_UNLOAD_RADIUS)
+		{
+		set BUSY to 1;
+		// instantly reset the position of the magical invisible arm (and turn it already, ok)
+		turn unload_shoulder to y-axis get XZ_ATAN(get PIECE_XZ(unload_shoulder) - xz) now;
+		move unload_arm to z-axis 0 now;
+		move unload_arm to y-axis get PIECE_Y(base) - get PIECE_Y(unload_shoulder) now;
+		attach-unit id to unload_arm;
+		
+		//slowly move the arm, carrying the unit, to the pos where to unload
+		move unload_arm to z-axis get XZ_HYPOT(get PIECE_XZ(unload_shoulder) - xz) speed ((get XZ_HYPOT(get PIECE_XZ(unload_shoulder) - xz))/(UNLOAD_TIME))*1000;
+		move unload_arm to y-axis get GROUND_HEIGHT(xz) - get PIECE_Y(unload_shoulder) speed ((get PIECE_Y(base) - get GROUND_HEIGHT(xz))/(UNLOAD_TIME))*1000;
+		sleep UNLOAD_TIME;
+		
+		--units_inside;
+		drop-unit id;
+		
+	turn ramp2 to x-axis <-90.021978> speed <80.021978>;
+	turn ramp1 to x-axis <55.021978> speed <120.021978>;
+	wait-for-turn ramp2 around x-axis;
+	wait-for-turn ramp1 around x-axis;
+	turn ramp2 to x-axis <0.000000> speed <100.021978>;
+	turn ramp1 to x-axis <0.000000> speed <100.021978>;
+	wait-for-turn ramp2 around x-axis;
+	wait-for-turn ramp1 around x-axis;
+	rampup = 1;
+	set BUSY to 0;
+			}
+	}
+Killed(severity, corpsetype)
+{
+	if( severity <= 50 )
+	{
+		corpsetype = 1;
+		explode body type BITMAPONLY | BITMAP3;
+		explode ramp1 type BITMAPONLY | BITMAP4;
+		explode ramp2 type BITMAPONLY | BITMAP5;
+		return (0);
+	}
+	if( severity <= 199 )
+	{
+		corpsetype = 3;
+		explode body type SHATTER | EXPLODE_ON_HIT | BITMAP2;
+		explode ramp1 type BITMAPONLY | BITMAP4;
+		explode ramp2 type BITMAPONLY | BITMAP5;
+		return (0);
+	}
+	corpsetype = 3;
+	explode body type SHATTER | EXPLODE_ON_HIT | BITMAP2;
+	explode ramp1 type BITMAPONLY | BITMAP4;
+	explode ramp2 type BITMAPONLY | BITMAP5;
+}

@@ -1,0 +1,290 @@
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, bdoor1, bdoor2, wingtip1, wingtip2, bomb, thrust3, thrust4, thrust1, thrust2, under1, under2, under3;
+
+static-var  bmoving, statechg_DesiredState, statechg_StateChanging, aimer, speed, maxs;
+
+#ifndef MAX_SPEED
+#define MAX_SPEED 75 
+#endif
+
+#ifndef CURRENT_SPEED
+#define CURRENT_SPEED 29 
+#endif
+
+activatescr()
+{
+	if( TRUE )
+	{
+	turn under1 to x-axis <0> now;
+	turn under2 to z-axis <0> now;
+	turn under3 to z-axis <0> now;
+	sleep 100;
+	show under1;
+	show under2;
+	show under3;
+	turn under1 to x-axis <120> speed <150.000000>;
+	turn under2 to z-axis <90> speed <150.000000>;
+	turn under3 to z-axis <-90> speed <150.000000>;
+	wait-for-turn under1 around x-axis;
+	sleep 1000;
+	hide under1;
+	hide under2;
+	hide under3;
+	}
+	sleep 2;
+	return (0);
+}
+
+deactivatescr()
+{
+	if( TRUE )
+	{
+	bmoving = 0;
+	turn under1 to x-axis <120> now;
+	turn under2 to z-axis <80> now;
+	turn under3 to z-axis <-80> now;
+	sleep 100;
+	show under1;
+	show under2;
+	show under3;
+	turn under1 to x-axis <0> speed <150.000000>;
+	turn under2 to z-axis <0> speed <150.000000>;
+	turn under3 to z-axis <0> speed <150.000000>;
+	wait-for-turn under1 around x-axis;
+	}
+	sleep 66;
+	return (0);
+}
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from base;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+	return (0);
+}
+
+InitState()
+{
+	statechg_DesiredState = TRUE;
+	statechg_StateChanging = FALSE;
+	return (0);
+}
+
+RequestState(requestedstate, currentstate)
+{
+	if( statechg_StateChanging )
+	{
+		statechg_DesiredState = requestedstate;
+		return (0);
+	}
+	statechg_StateChanging = TRUE;
+	currentstate = statechg_DesiredState;
+	statechg_DesiredState = requestedstate;
+	while( statechg_DesiredState != currentstate )
+	{
+		if( statechg_DesiredState == 0 )
+		{
+			call-script activatescr();
+			currentstate = 0;
+		}
+		if( statechg_DesiredState == 1 )
+		{
+			bMoving = 0;
+			call-script deactivatescr();
+			currentstate = 1;
+		}
+	}
+	statechg_StateChanging = FALSE;
+	return (0);
+}
+
+Toggle(t,value) 
+{
+
+if(t==1)
+	{
+if(value==0)
+{
+sleep 2000;
+aimer = 1;
+}
+
+if(value==1)
+{
+sleep 2000;
+aimer = 2;
+}
+	}
+
+}
+
+ProcessFlames()
+	{
+	// Process the flames SFX while moving;
+
+	while (TRUE)
+		{
+		speed = get CURRENT_SPEED;
+		if (bmoving == 1 AND speed > (maxs * .99))
+			{
+			emit-sfx 1024 + 0 from thrust1;
+			emit-sfx 1024 + 0 from thrust3;
+		sleep 5;	
+			emit-sfx 1024 + 0 from thrust2;
+			emit-sfx 1024 + 0 from thrust4;
+			}
+		// Do this about 20 times per second
+		sleep 50;
+		}
+	}
+
+Create()
+{
+	aimer = 1;
+	maxs = get MAX_SPEED;
+	hide wingtip1;
+	hide wingtip2;
+	hide thrust1;
+	hide thrust2;
+	hide thrust3;
+	hide thrust4;
+	call-script InitState();
+	start-script SmokeUnit();
+	start-script ProcessFlames();	
+}
+
+Activate()
+{
+	start-script RequestState(0);
+	return (0);
+}
+
+Deactivate()
+{
+	start-script RequestState(1);
+	return (0);
+}
+
+StartMoving()
+	{
+	sleep 1000;
+	bmoving = 1;
+	}
+
+StopMoving()
+	{	
+	sleep 500;
+	bmoving = 0;
+	}
+	
+bombay()
+{
+	turn bdoor1 to z-axis <-90> speed <300.000000>;
+	turn bdoor2 to z-axis <90> speed <300.000000>;
+	wait-for-turn bdoor2 around z-axis;
+	sleep 2000;
+	turn bdoor1 to z-axis <0> speed <300.000000>;
+	turn bdoor2 to z-axis <0> speed <300.000000>;
+	wait-for-turn bdoor2 around z-axis;
+}
+
+AimWeapon1(Func_Var_1, Func_Var_2)
+{
+if (aimer == 2)
+	{
+	return 0;
+	}
+	if (aimer == 1)
+	{
+	start-script bombay();
+	return (1);
+	}
+}
+
+FireWeapon1()
+{
+sleep 100;
+}
+
+AimWeapon2(Func_Var_1, Func_Var_2)
+{
+if (aimer == 1)
+	{
+	return 0;
+	}
+	if (aimer == 2)
+	{
+	start-script bombay();
+	return (1);
+	}
+}
+
+FireWeapon2()
+{
+sleep 100;
+}
+
+QueryWeapon1(Func_Var_1)
+{
+		Func_Var_1 = bomb;
+}
+
+QueryWeapon2(Func_Var_1)
+{
+
+		Func_Var_1 = bomb;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+	return (0);
+}
+
+
+Killed(severity, corpsetype)
+{
+
+	if( severity <= 99 )
+	{
+		corpsetype = 1;
+		explode base type BITMAPONLY | BITMAP1;
+		explode under1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+		explode bdoor1 type SHATTER | BITMAP5;
+		explode under3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode bdoor2 type BITMAPONLY | BITMAP2;
+		explode under2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		return (0);
+	}
+	corpsetype = 1;
+	explode base type BITMAPONLY | BITMAP1;
+	explode under1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP4;
+	explode bdoor1 type SHATTER | EXPLODE_ON_HIT | BITMAP5;
+	explode under2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode bdoor2 type BITMAPONLY | BITMAP2;
+	explode under3 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	return (0);
+}

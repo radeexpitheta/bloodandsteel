@@ -1,0 +1,236 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, body, w1, w2, box1, box2, load_shoulder, load_Arm, unload_shoulder, unload_Arm;
+static-var  restore_delay, heading;
+
+// Signal definitions
+#define SIG_MOVE				2
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	var Func_Var_4;
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from base;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+	return (0);
+}
+
+turncheck()
+{
+	
+	while( TRUE )
+	{
+		heading = get 82;
+		if( heading < -8190 ) // 8910 = 45 degrees times the angular constant of 182, so you don't need the <>'s
+		{
+			heading = -8190;
+			turn w1 to y-axis <-30> speed <150.000000>;
+			turn w2 to y-axis <-30> speed <150.000000>;
+		}
+		
+		if( heading > 8190 )
+		{
+			heading = 8190;
+			turn w1 to y-axis <30> speed <150.000000>;
+			turn w2 to y-axis <30> speed <150.000000>;
+		}
+		
+		if( heading > -8190 AND heading < 8190 )
+		{
+			turn w1 to y-axis <0> speed <150.000000>;
+			turn w2 to y-axis <0> speed <150.000000>;
+		}		
+	sleep 1000;	//check every second
+	}
+
+}
+
+StartMoving()
+{
+
+	signal SIG_MOVE;
+	set-signal-mask SIG_MOVE;
+//	spin wheel1a around x-axis speed <400.159341> accelerate <160.00000>;
+//	spin wheel1b around x-axis speed <400.159341> accelerate <160.00000>;
+//	spin wheel2a around x-axis speed <400.159341> accelerate <160.00000>;
+//	spin wheel2b around x-axis speed <400.159341> accelerate <160.00000>;
+	start-script turncheck();
+}
+
+StopMoving()
+{
+	signal SIG_MOVE;
+	//spin wheel1a around x-axis speed <0> accelerate <-140.00000>;
+	//spin wheel1b around x-axis speed <0> accelerate <-140.00000>;
+	//spin wheel2a around x-axis speed <0> accelerate <-140.00000>;
+	//spin wheel2b around x-axis speed <0> accelerate <-140.00000>;
+	turn w1 to y-axis <0> speed <150.000000>;
+	turn w2 to y-axis <0> speed <150.000000>;
+}
+
+static-var units_inside;// Make sure you initialise it to 0 in the Create()
+
+#define MAX_LOAD_RADIUS [40]
+#define MAX_UNLOAD_RADIUS [40]
+#define LOAD_TIME 25
+#define UNLOAD_TIME 15
+
+TransportPickup(id)
+	{
+	
+	//Abort if already filled up
+	if(units_inside>=4)
+		{
+		return;
+		}
+	
+	// If close enough to allow loading:
+	if(get XZ_HYPOT(get PIECE_XZ(base) - get UNIT_XZ(id))<=MAX_LOAD_RADIUS)
+		{
+		
+		// we're busy loading, don't disturb:
+		set BUSY to 1;
+		
+		// instantly move the magical invisible arm to the position where the unit to load is
+		turn load_shoulder to y-axis get XZ_ATAN(get PIECE_XZ(load_shoulder) - get UNIT_XZ(id)) now;
+		move load_arm to z-axis get XZ_HYPOT(get PIECE_XZ(load_shoulder) - get UNIT_XZ(id)) now;
+		move load_arm to y-axis get UNIT_Y(id) - get PIECE_Y(load_shoulder) now;
+		
+		attach-unit id to load_arm;
+		
+		//slowly move the arm, carrying the unit, to the spider center (moving to proper basket pos would be too complex for now)
+		move load_arm to z-axis 0 speed ((get XZ_HYPOT(get PIECE_XZ(load_shoulder) - get UNIT_XZ(id)))/(LOAD_TIME))*1000;
+		move load_arm to y-axis get PIECE_Y(base) - get PIECE_Y(load_shoulder) speed ((get PIECE_Y(base) - get UNIT_Y(id))/(LOAD_TIME))*1000;// I assumed the torax would have a higher Y than the loaded unit, if not the speed would be negative and that would be BAD!
+		sleep LOAD_TIME;
+		
+		// Ideally here I would check that the loading was successful. Bah, let's not to simplify.
+		
+		// Let's not forget to update the counter
+		++units_inside;	
+		attach-unit id to 0 - 1;
+		set BUSY to 0;
+		
+		}
+	
+	}
+
+
+TransportDrop(id,xz)
+	{
+	// If close enough to allow unloading:
+	if(get XZ_HYPOT(get PIECE_XZ(base) - get UNIT_XZ(id))<=MAX_UNLOAD_RADIUS)
+		{
+		
+		// we're busy unloading, don't disturb:
+		set BUSY to 1;
+		
+		// instantly reset the position of the magical invisible arm (and turn it already, ok)
+		turn unload_shoulder to y-axis get XZ_ATAN(get PIECE_XZ(unload_shoulder) - xz) now;
+		move unload_arm to z-axis 0 now;
+		move unload_arm to y-axis get PIECE_Y(base) - get PIECE_Y(unload_shoulder) now;
+		
+		attach-unit id to unload_arm;
+		
+		//slowly move the arm, carrying the unit, to the pos where to unload
+		move unload_arm to z-axis get XZ_HYPOT(get PIECE_XZ(unload_shoulder) - xz) speed ((get XZ_HYPOT(get PIECE_XZ(unload_shoulder) - xz))/(UNLOAD_TIME))*1000;
+		move unload_arm to y-axis get GROUND_HEIGHT(xz) - get PIECE_Y(unload_shoulder) speed ((get PIECE_Y(base) - get GROUND_HEIGHT(xz))/(UNLOAD_TIME))*1000;//again, I assumed that torax was above ground, if not, speed would be negative, and things could go BAD!!
+		sleep UNLOAD_TIME;
+		
+		// Ideally here I would check that the unloading was successful. Bah, let's not to simplify.
+		
+		// Let's not forget to update the counter
+		--units_inside;
+		
+		// And now, ladies and gentlemen, the drop command:
+		drop-unit id;
+		
+		// Ok, we're done, the engine may proceed to next action. (Or something like that, I'm not even sure that "BUSY" really do something.)
+		set BUSY to 0;
+		
+		}
+	
+	}
+
+Create()
+{
+	units_inside=0;
+	restore_delay = 3000;
+	start-script SmokeUnit();
+	return (0);
+}
+
+SetMaxReloadTime(Func_Var_1)
+{
+	restore_delay = Func_Var_1 * 4;
+	return (0);
+}
+
+RestoreAfterDelay()
+{
+	sleep restore_delay;
+	set-signal-mask 0;
+	turn w1 to y-axis <0.000000> speed <100.000000>;
+	turn w2 to y-axis <0.000000> speed <100.000000>;
+	return (0);
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
+
+Killed(severity, corpsetype)
+{
+	if( severity <= 00 )
+	{
+		corpsetype = 1;
+		explode body type BITMAPONLY | BITMAP1;
+		explode w1 type BITMAPONLY | BITMAP1;
+		explode w2 type BITMAPONLY | BITMAP1;
+		return (0);
+	}
+	if( severity <= 249 )
+	{
+		corpsetype = 2;
+		explode body type SHATTER | BITMAP4;
+		explode w2 type SHATTER | BITMAP4;
+		explode w1 type SHATTER | BITMAP4;
+		return (0);
+	}
+	if( severity <= 499 )
+	{
+		corpsetype = 3;
+		explode body type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode w1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		explode w2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+		return (0);
+	}
+	corpsetype = 3;
+	explode body type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode w1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+	explode w2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP2;
+
+}
