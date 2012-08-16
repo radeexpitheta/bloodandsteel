@@ -1,0 +1,247 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, bunker, mg1, mg2, mg3, doors, load_shoulder, load_Arm, unload_shoulder, unload_Arm;
+static-var down, gun;
+
+// Signal definitions
+#define SIG_AIM				2
+
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from base;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+static-var units_inside;// Make sure you initialise it to 0 in the Create()
+
+#define MAX_LOAD_RADIUS [40]
+#define MAX_UNLOAD_RADIUS [40]
+#define LOAD_TIME 25
+#define UNLOAD_TIME 15
+
+TransportPickup(id)
+	{
+	
+	//Abort if already filled up
+	if(units_inside>=4)
+		{
+		return;
+		}
+	
+	// If close enough to allow loading:
+	if(get XZ_HYPOT(get PIECE_XZ(base) - get UNIT_XZ(id))<=MAX_LOAD_RADIUS)
+		{
+		
+		// we're busy loading, don't disturb:
+		set BUSY to 1;
+		
+		// instantly move the magical invisible arm to the position where the unit to load is
+		turn load_shoulder to y-axis get XZ_ATAN(get PIECE_XZ(load_shoulder) - get UNIT_XZ(id)) now;
+		move load_arm to z-axis get XZ_HYPOT(get PIECE_XZ(load_shoulder) - get UNIT_XZ(id)) now;
+		move load_arm to y-axis get UNIT_Y(id) - get PIECE_Y(load_shoulder) now;
+		
+		attach-unit id to load_arm;
+		
+		//slowly move the arm, carrying the unit, to the spider center (moving to proper basket pos would be too complex for now)
+		move load_arm to z-axis 0 speed ((get XZ_HYPOT(get PIECE_XZ(load_shoulder) - get UNIT_XZ(id)))/(LOAD_TIME))*1000;
+		move load_arm to y-axis get PIECE_Y(base) - get PIECE_Y(load_shoulder) speed ((get PIECE_Y(base) - get UNIT_Y(id))/(LOAD_TIME))*1000;// I assumed the torax would have a higher Y than the loaded unit, if not the speed would be negative and that would be BAD!
+		sleep LOAD_TIME;
+		
+		// Ideally here I would check that the loading was successful. Bah, let's not to simplify.
+		
+		// Let's not forget to update the counter
+		++units_inside;	
+		attach-unit id to 0 - 1;
+		set BUSY to 0;
+		
+		}
+	
+	}
+
+
+TransportDrop(id,xz)
+	{
+	// If close enough to allow unloading:
+	if(get XZ_HYPOT(get PIECE_XZ(base) - get UNIT_XZ(id))<=MAX_UNLOAD_RADIUS)
+		{
+		
+		// we're busy unloading, don't disturb:
+		set BUSY to 1;
+		
+		// instantly reset the position of the magical invisible arm (and turn it already, ok)
+		turn unload_shoulder to y-axis get XZ_ATAN(get PIECE_XZ(unload_shoulder) - xz) now;
+		move unload_arm to z-axis 0 now;
+		move unload_arm to y-axis get PIECE_Y(base) - get PIECE_Y(unload_shoulder) now;
+		
+		attach-unit id to unload_arm;
+		
+		//slowly move the arm, carrying the unit, to the pos where to unload
+		move unload_arm to z-axis get XZ_HYPOT(get PIECE_XZ(unload_shoulder) - xz) speed ((get XZ_HYPOT(get PIECE_XZ(unload_shoulder) - xz))/(UNLOAD_TIME))*1000;
+		move unload_arm to y-axis get GROUND_HEIGHT(xz) - get PIECE_Y(unload_shoulder) speed ((get PIECE_Y(base) - get GROUND_HEIGHT(xz))/(UNLOAD_TIME))*1000;//again, I assumed that torax was above ground, if not, speed would be negative, and things could go BAD!!
+		sleep UNLOAD_TIME;
+		
+		
+		--units_inside;
+		drop-unit id;
+		set BUSY to 0;
+		
+		}
+	
+	}
+	
+deploy()
+{
+	move doors to y-axis [-2] speed [5];
+	set ARMORED to 0;
+	sleep 1000;	
+	down = 0;
+}
+
+undeploy()
+{
+	down = 1;
+	move doors to y-axis [0] speed [5];
+	sleep 1000;
+	set ARMORED to 1;
+}
+
+Toggle(t,value) 
+{
+
+if(t==1)
+	{
+if(value==0)
+{
+call-script deploy();
+}
+
+if(value==1)
+{
+call-script undeploy();	
+}
+	}
+
+}
+
+Create()
+{
+	set ARMORED to 0;
+	move doors to y-axis [-2] now;
+	gun = mg1;
+	down = 0;
+	units_inside=0;
+	start-script SmokeUnit();
+}
+
+AimPrimary(heading, pitch)
+{
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	if (heading < 8190 && heading > -8190)
+	{
+	gun = mg1;
+	}
+	if (heading >= 8190)
+	{
+	gun = mg2;
+	}
+	if (heading <= -8190)
+	{
+	gun = mg3;
+	}
+	turn mg1 to y-axis heading speed <300.071429>;
+	turn mg2 to y-axis heading speed <300.071429>;
+	turn mg3 to y-axis heading speed <300.071429>;
+	wait-for-turn mg1 around y-axis;
+	wait-for-turn mg2 around y-axis;
+	wait-for-turn mg3 around y-axis;
+	if (down == 0)
+	{
+	return (1);
+	}
+}
+
+FirePrimary()
+{
+}
+
+AimFromPrimary(piecenum)
+{
+	piecenum = mg1;
+}
+
+QueryPrimary(piecenum)
+{
+	piecenum = gun;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
+
+Killed(severity, corpsetype)
+{
+	hide mg1;
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode mg2 type BITMAPONLY | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode mg1 type BITMAPONLY | BITMAP3;
+		explode mg3 type BITMAPONLY | BITMAP4;
+		explode doors type BITMAPONLY | BITMAP5;
+		return (0);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode mg2 type FALL | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode mg1 type FALL | BITMAP3;
+		explode mg3 type SHATTER | BITMAP4;
+		explode doors type FALL | BITMAP5;
+		return (0);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 3;
+		explode mg2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+		explode base type BITMAPONLY | BITMAP2;
+		explode mg1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+		explode mg3 type SHATTER | BITMAP4;
+		explode doors type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+		return (0);
+	}
+	corpsetype = 3;
+	explode mg2 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP1;
+	explode base type BITMAPONLY | BITMAP2;
+	explode mg1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP3;
+	explode mg3 type SHATTER | EXPLODE_ON_HIT | BITMAP4;
+	explode doors type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+}

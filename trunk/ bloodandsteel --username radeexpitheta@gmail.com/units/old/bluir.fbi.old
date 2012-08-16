@@ -1,0 +1,93 @@
+[UNITINFO]
+{
+	Name=Scout Team;
+	Unitname=bluir;
+	Description=Light Recon Infantry;
+
+	// Required Tags
+	icontype=ir;
+	BuildCostMetal=0;
+	Category=INF UNARMORED NOTAIR UNIT TARGET;
+	FootprintX=1;
+	FootprintZ=1;
+	MaxDamage=300; //2x 150 +100
+	mass=150; //2 men 
+	IdleAutoHeal=50;
+	IdleTime=300;
+	ObjectName=bluir.s3o;
+	SoundCategory=radio;
+	upright=1;
+	Corpse=blui_dead;	
+
+	// Movement
+	MovementClass=foot;
+	BrakeRate=0.05;
+	Acceleration=0.05;
+	CanMove=1;
+	MaxVelocity=0.5;
+	TurnRate=400;
+	turnInPlace=1;
+
+	// Airplane Moventment
+
+	// Buildings
+
+	// Construction
+	ShowNanoFrame=0;
+	LevelGround=0;
+
+	// Resources
+	EnergyMake=0;
+	EnergyStorage=0;
+	MetalStorage=0;
+	MetalMake=0;
+	Reclaimable=0;
+
+	// Abilities
+	CanAttack=1;
+	CanStop=1;
+ 	canFireControl=1;
+	
+
+	// Sight/Radar
+	RadarDistance=0;
+	SightDistance=800;
+	SeismicSignature=0;
+	Stealth=1;
+	CloakCost=0;
+	mincloakdistance=100;	
+	initcloaked=0;
+	
+	// Weapons
+	Weapon1=bluirwpn1;
+	Weapon2=bluigun;
+	Weapon3=bluigun;
+	weaponslaveto3=2;		
+	weaponslaveto4=1;
+	BadTargetCategory=NOTARGET;	
+	BadTargetCategory1=NOTARGET;
+	BadTargetCategory2=NOTINF NOTARGET;
+	BadTargetCategory3=NOTINF NOTARGET;
+	OnlyTargetCategory1=INF VEH AIR TARGET;
+	OnlyTargetCategory2=INF TARGET;
+	OnlyTargetCategory3=INF TARGET;
+	ExplodeAs=Death;
+	SelfDestructAs=Death;
+	NoChaseCategory=NOTARGET AIR;
+
+	// Tracks/Flares
+
+	// Watersettings
+
+	// Misc
+	SmoothAnim=1;
+
+	[customParams] 
+	{
+	toggle1=2;
+	toggle1on=Deploy On;
+	toggle1off=Deploy Off;
+toggle1tooltip=Deploy Weapon for Increased Fire Power;
+	}
+
+}

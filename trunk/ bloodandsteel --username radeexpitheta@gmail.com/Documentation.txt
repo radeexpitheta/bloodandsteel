@@ -1,0 +1,17 @@
+Blood and Steel Copyrights
+Art work is released as CC - NC
+Code is released as GPL
+
+Credits go to:
+
+KDR for Cuberor LUA code
+Spring 1944 team for LUA code
+Smoth for CEG images and code
+CA's various PD images used for ceg and othe effects
+Sean Heron for LUA scripting and editing, and ALOT of other help
+Bobthedinosaur for models, textures, sounds, scripting, hacking, and destroying my life
+
+Please flame at the forums at http://springrts.com/phpbb/
+
+
+

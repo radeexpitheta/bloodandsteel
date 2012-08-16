@@ -1,0 +1,25 @@
+[cityblock]
+{
+	name=Barrier;
+	isshield=1;
+	shieldrepulser=0;
+	smartshield=0;
+	exteriorshield=1;
+
+	visibleshield=0;
+	shieldforce=0;
+	shieldenergyuse=0;
+
+	shieldradius=50;
+	shieldpower=1000;
+	shieldpowerregen=2;
+	shieldpowerregenenergy=0;
+	shieldintercepttype=2;
+	shieldbadcolor=0 0 0 ;
+	shieldgoodcolor=0 0 0;
+	shieldalpha=0;
+	[DAMAGE]
+	{
+		default=10;
+	}
+}

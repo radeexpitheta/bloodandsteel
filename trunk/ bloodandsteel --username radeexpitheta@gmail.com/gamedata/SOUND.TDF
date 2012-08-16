@@ -1,0 +1,59 @@
+[COMPUTER]		
+	{  
+	select1=select1;
+	arrived1=RoboArrive;
+	ok1=ok1;
+	ok2=ok2;
+	cant1=RoboCancel;
+	}
+
+[Radar]		
+	{  
+	select1=Radar;
+	arrived1=RoboArrive;
+	ok1=ok1;
+	ok2=ok2;
+	ok3=Radar;
+	cant1=RoboCancel;
+	}
+
+[mech]		
+	{  
+	select1=mechsel;
+	arrived1=mechok;
+	ok1=mechok;
+	ok2=mech6;
+	ok3=ok1;
+	cant1=mechno;
+	}
+
+[Radio]
+	{
+	select1=RadReady;
+	select2=Radstandby;
+	select3=RadRoger;
+	ok1=RadGo;
+	ok2=RadAcknow;
+	ok3=RadMove;
+	ok4=RadRoger;
+	cant1=RadCant;
+	arrived1=RadHoldup;
+	underattack=RadNeedBack;
+	underattack2=RadTaking;
+      	} 
+
+[Veh]
+	{
+	select1=veh2;
+	select2=veh3;
+	select3=veh4;
+	ok1=veh1;
+	ok2=veh4;
+	ok3=RadAcknow;
+	ok4=RadRoger;
+	cant1=RadCant;
+	arrived1=vehstop;
+	arrived2=vehstop2;
+	underattack=RadNeedBack;
+	underattack2=RadTaking;
+      	} 

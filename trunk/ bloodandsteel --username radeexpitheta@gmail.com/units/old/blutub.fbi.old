@@ -1,0 +1,80 @@
+[UNITINFO]
+{
+	Name=Weapon Truck;
+	Unitname=blutub;
+	Description=Heavy armored unit;
+
+	// Required Tags
+	icontype=tub;
+	BuildCostMetal=100;
+	Category=VEH UNIT TARGET NOTINF;
+	FootprintX=1;
+	FootprintZ=1;
+	mass=9000;
+	MaxDamage=2500;
+	IdleAutoHeal=50;
+	IdleTime=300;
+	ObjectName=dumtruk.s3o;
+	SoundCategory=COMPUTER;
+	upright=0;
+
+	collisionVolumeTest=1;
+	Corpse=blutub_dead;
+
+	// Movement
+	MovementClass=WHEEL;
+	BrakeRate=.2;
+	Acceleration=.2;
+	CanMove=1;
+	MaxVelocity=2;
+	TurnRate=600;
+	turnInPlace=0;
+
+	// Airplane Moventment
+
+	// Buildings
+
+	// Construction
+	ShowNanoFrame=0;
+	LevelGround=0;
+
+	// Resources
+	EnergyMake=0;
+	EnergyStorage=0;
+	MetalStorage=0;
+	MetalMake=0;
+	Reclaimable=0;
+
+	// Abilities
+	CanAttack=0;
+	CanStop=1;
+
+	// Sight/Radar
+	RadarDistance=0;
+	SightDistance=800;
+	SeismicSignature=1;
+
+	// Weapons
+
+
+	ExplodeAs=basedeath;
+	SelfDestructAs=basedeath;
+	NoChaseCategory=NOTARGET;
+
+	// Tracks/Flares
+	leavetracks=1; 
+	trackwidth=7; 
+	trackoffset=0; 
+	trackstrength=8; //10goliath8bulldog6stupmy4flash
+	trackstretch=1;
+	tracktype=StdTank;
+
+	// Watersettings
+
+	transportsize=1;
+	transportcapacity=6;
+	transportmaxunits=6;
+	transportUnloadMethod=2;
+	transportmass=900;
+	ReleaseHeld=1;
+}

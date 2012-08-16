@@ -1,0 +1,194 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, wing1, wing2;
+
+static-var  statechg_DesiredState, statechg_StateChanging, stealthon, reglos, regdar;
+
+#ifndef STEALTH
+#define STEALTH 96 
+#endif
+
+#ifndef LOS_RADIUS
+#define LOS_RADIUS 85
+#endif
+
+#ifndef ACTIVATION
+#define ACTIVATION   1 
+#endif
+
+#ifndef RADAR_RADIUS 
+#define RADAR_RADIUS 87
+#endif
+
+activatescr()
+{
+}
+
+deactivatescr()
+{
+}
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from base;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+InitState()
+{
+	statechg_DesiredState = TRUE;
+	statechg_StateChanging = FALSE;
+}
+
+RequestState(requestedstate, currentstate)
+{
+	if( statechg_StateChanging )
+	{
+		statechg_DesiredState = requestedstate;
+		return (0);
+	}
+	statechg_StateChanging = TRUE;
+	currentstate = statechg_DesiredState;
+	statechg_DesiredState = requestedstate;
+	while( statechg_DesiredState != currentstate )
+	{
+		if( statechg_DesiredState == 0 )
+		{
+			call-script activatescr();
+			currentstate = 0;
+		}
+		if( statechg_DesiredState == 1 )
+		{
+			call-script deactivatescr();
+			currentstate = 1;
+		}
+	}
+	statechg_StateChanging = FALSE;
+}
+
+deploy()
+{
+	set RADAR_RADIUS to 0;
+ 	set STEALTH to stealthon;
+	sleep 1000;	
+	set LOS_RADIUS to reglos;
+}
+
+undeploy()
+{
+	set STEALTH to 0;
+	set LOS_RADIUS to (reglos / 2);
+	sleep 1000;
+	set RADAR_RADIUS to regdar;
+}
+
+
+Toggle(t,value) 
+{
+
+if(t==1)
+	{
+	if(value==0)
+		{
+		call-script deploy();
+		}
+
+	if(value==1)
+		{	
+		call-script undeploy();	
+		}
+	}
+}
+
+go()
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	sleep 100;
+	set RADAR_RADIUS to 0;
+	return 0;
+}
+
+
+Create()
+{
+	stealthon =  get STEALTH;
+	reglos = get LOS_RADIUS;
+	regdar = get RADAR_RADIUS;
+	call-script InitState();
+	start-script SmokeUnit();
+	call-script go();
+}
+
+Activate()
+{
+	start-script RequestState(0);
+}
+
+Deactivate()
+{
+	start-script RequestState(1);
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
+
+Killed(severity, corpsetype)
+{
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode base type BITMAPONLY | BITMAP1;
+		explode wing1 type BITMAPONLY | BITMAP5;
+		explode wing2 type BITMAPONLY | BITMAP1;
+		return (0);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode base type BITMAPONLY | BITMAP1;
+		explode wing1 type FALL | BITMAP5;
+		explode wing2 type SHATTER | BITMAP1;
+		return (0);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 3;
+		explode base type BITMAPONLY | BITMAP1;
+		explode wing1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+		explode wing2 type SHATTER | BITMAP1;
+		return (0);
+	}
+	corpsetype = 3;
+	explode base type BITMAPONLY | BITMAP1;
+	explode wing1 type FALL | SMOKE | FIRE | EXPLODE_ON_HIT | BITMAP5;
+	explode wing2 type SHATTER | EXPLODE_ON_HIT | BITMAP1;
+}

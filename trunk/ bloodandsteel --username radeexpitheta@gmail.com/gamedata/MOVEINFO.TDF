@@ -1,0 +1,39 @@
+[CLASS0]
+	{
+	Name=FOOT;
+	MaxWaterDepth=1;
+	MaxSlope=35;
+	CrushStrength=1;
+	FootprintX=1;
+	FootprintZ=1;
+	}
+[CLASS1]
+	{
+	Name=WHEEL;
+	MaxWaterDepth=2;
+	MaxSlope=25;
+	CrushStrength=30;
+	FootprintX=1;
+	FootprintZ=1;
+	}
+
+[CLASS2]
+	{
+	Name=TRACK;
+	MaxWaterDepth=2;
+	MaxSlope=30;
+	CrushStrength=50;
+	FootprintX=1;
+	FootprintZ=1;
+	}
+[CLASS3]
+	{
+	Name=HOVER;
+	FootprintX=2;
+	FootprintZ=2;
+	MaxSlope=18;
+	BadSlope=18;
+	MaxWaterSlope=255;
+	BadWaterSlope=255;
+	CrushStrength=60;
+	}

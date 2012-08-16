@@ -1,0 +1,354 @@
+[gendiwp1] 
+{
+  name=Quad Heavy Machinegun;
+  accuracy=300;
+  areaOfEffect=10;
+  impactOnly=1;
+  avoidFeature=0;
+  avoidFriendly=0;
+  beamweapon=1;
+  burnblow=1;
+  burst=24;
+  burstRate=0.03;
+  collideFeature=1;
+  collisionSize=3;
+  edgeEffectiveness=1;
+  fireStarter=1;
+  lineofsight=1;
+  noSelfDamage=1;
+  range=800;
+  reloadTime=2;
+  rendertype=0;
+  rgbColor=1.0 0.70 0.2;
+  size=0.2;
+  thickness=1;
+  soundStart=mgun;
+  soundTrigger=1;
+  sprayAngle=700;
+  tolerance=600;
+  turret=1;
+  weaponTimer=1;
+  weaponVelocity=1500;
+	
+
+explosionGenerator=custom:Bullet;
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+InterceptedByShieldType=2;
+  [damage] 
+{
+    default=20;
+	base=0;
+	veh=5;
+  }
+}
+
+[gendvwp1]
+	{
+	name=Heavy Cannon;
+	rendertype=4;
+	ballistic=1;
+	turret=1;
+	collidefriendly=0; //add b03
+
+	energypershot=0;
+	minbarrelangle=-45;
+	range=1600; //was 1200 in 01b
+	reloadtime=3;
+	weaponvelocity=900;
+	areaofeffect=50;
+	edgeeffectiveness=1;
+
+	soundstart=Cannon;
+	soundhit=explode3;
+
+	firestarter=50;
+	accuracy=300;
+	aimrate=1000;
+	tolerance=300;
+	holdtime=1;
+
+explosiongenerator=custom:ARTILLERY_EXPLOSION;
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+	startsmoke=1;
+
+InterceptedByShieldType=2;
+	[DAMAGE]
+		{
+		default=900; //was 1200 in 01b
+		veh=1200;  //was 1800 in 01b
+		base=0;
+		inf=100; //was 200
+		}
+	}
+
+
+[gendvwp2]
+	{
+	name=Flak Cannon;
+	rendertype=4;
+	ballistic=1;
+	turret=1;
+	toairweapon=1;
+	collidefriendly=0; //add b03	
+
+	range=900;
+	heightMod=0.5;
+	reloadtime=6;
+	burst=2;
+	burstrate=0.5;
+	weapontimer=1;
+	weaponvelocity=950;
+	areaofeffect=134;
+	edgeeffectiveness=1;
+	soundstart=Cannon;
+	soundhit=ArtHit;
+
+	minbarrelangle=-30;
+
+	accuracy=900;
+	tolerance=767;	
+	burnblow=1;
+
+	explosiongenerator=custom:FLAKPLOSION;
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+	color=1;
+	startsmoke=1;
+
+	InterceptedByShieldType=2;
+	[DAMAGE]
+		{
+		default=600;
+		air=900;
+		inf=150;
+		base=0;
+		}
+	}
+
+[gendawp1]
+	{
+	name=Anti Air Missile;
+	rendertype=1;
+	lineofsight=1;
+	collidefriendly=0; //add b03
+	turret=1;
+	toairweapon=1;
+	model=gendamis.s3o;
+	range=1000;
+	heightMod=0.5;
+	reloadtime=8;
+	weapontimer=5;
+	weaponvelocity=1400; //was 950 in b02
+	startvelocity=600;
+	weaponacceleration=500;
+	turnrate=48000; //64000 is perfect
+	areaofeffect=50;
+	edgeeffectiveness=1;
+	metalpershot=0;
+	energypershot=0;
+	soundstart=missile2;
+	soundhit=medexplo;
+	soundtrigger=1;
+	firestarter=72;
+	smokedelay=0.1;
+	guidance=1;
+	tracks=1;
+	selfprop=1;
+	smoketrail=1;
+	tolerance=9950;
+	explosiongenerator=custom:MISSILE_EXPLOSION;
+	startsmoke=1;
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+	noselfdamage=1;
+
+	InterceptedByShieldType=2;
+	[DAMAGE]
+		{
+		default=1280;
+		inf=150;
+		base=0;
+		}
+	}
+
+[gendawp2]
+	{
+	name=Dumbfire Missiles;
+	collidefriendly=0; //ad b03
+	rendertype=1;
+	lineofsight=1;
+	turret=1;
+	trajectoryHeight=0.6;
+
+	model=gendamis.s3o;
+
+	range=1000;
+	reloadtime=36;
+	burst=3;
+	burstrate=0.6;
+	flightTime=1;
+	weaponvelocity=650;
+	startvelocity=250;
+	weaponacceleration=150;
+	turnrate=3000;
+	areaofeffect=50;
+	edgeeffectiveness=1;
+	metalpershot=0;
+
+	soundstart=missile2;
+	soundhit=medexplo;
+
+	firestarter=70;
+	smokedelay=.1;
+	smoketrail=1;
+	tolerance=1000;
+
+	explosiongenerator=custom:MISSILE_EXPLOSION;
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+	startsmoke=1;
+
+	InterceptedByShieldType=2;
+	[DAMAGE]
+		{
+		default=1280;
+		base=0;
+		inf=200;
+		def=800;
+		}
+	}
+
+[genddwp1]
+	{
+	name=Heavy Rocket;
+	rendertype=1;
+	weaponType=StarburstLauncher;
+	lineofsight=1;
+	vlaunch=1;
+      collidefriendly=0; //add b03
+
+	model=genddmis.s3o;
+
+	range=8000;
+	reloadtime=360; //was 480 in 01b
+	accuracy=100;
+
+	noautorange=1;
+	weapontimer=10; //was 5 as of b01
+	//flighttime=12; was on as of b02
+
+	weaponvelocity=1200; //was 400 as of b02
+	weaponacceleration=40; 
+	turnrate=64000;
+	edgeeffectiveness=.75;
+	areaofeffect=400;
+	metalpershot=0;
+
+	soundstart=misfire;
+	soundhit=bigexplo;
+
+	firestarter=100;
+	smokedelay=.1;
+	selfprop=1;
+	smoketrail=1;
+
+	twophase=1;
+	guidance=1;
+	propeller=1;
+	tolerance=4000;
+	targetable=1;
+	commandfire=1;
+	cruise=1;
+
+	impulsefactor=0; //as of b03 from here to
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0; //this point
+
+
+	startsmoke=1;
+
+explosiongenerator=custom:BIGBOMB_EXPLOSION;
+
+	InterceptedByShieldType=2;
+	[DAMAGE]
+		{
+		default=9600;
+		gendi=20000;
+		inf=200;
+		base=0;
+		}
+	}
+
+[genddwp2]
+	{
+	name=Interceptor;
+	rendertype=1;
+	lineofsight=1;
+	vlaunch=1;
+	collidefriendly=0; //add b03
+
+	model=genddmis.s3o;
+
+	range=6000;
+	coverage=1200;
+	reloadtime=180; //was 240 in 01b
+
+	noautorange=1;
+	weapontimer=4;
+	flighttime=60;
+
+	weaponvelocity=800;
+	weaponacceleration=60;
+	turnrate=32768;
+	areaofeffect=96;
+
+	energypershot=0;
+	metalpershot=0;
+
+	interceptor=1;
+
+	soundstart=misfire;
+	soundhit=explode3;
+
+	firestarter=100;
+	smokedelay=.1;
+	selfprop=1;
+	smoketrail=1;
+	tracks=1;
+
+	twophase=1;
+	guidance=1;
+	tolerance=4000;
+
+explosiongenerator=custom:FLAKPLOSION;
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+	startsmoke=1;
+
+	InterceptedByShieldType=2;
+	[DAMAGE]
+		{
+		default=500;
+		}
+	}

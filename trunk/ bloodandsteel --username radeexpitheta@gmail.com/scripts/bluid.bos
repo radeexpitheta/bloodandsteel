@@ -1,0 +1,851 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, b1, b2, b3, b4, pel1, tur1, hed1, tor1, armr1, gun1, fp1, arml1, lega1, legb1, legc1, 
+pel2, tur2, hed2, tor2, armr2, gun2, fp2, arml2, lega2, legb2, legc2,
+pel3, tur3, hed3, tor3, armr3, gun3, fp3, arml3, lega3, legb3, legc3,
+pel4, tur4, hed4, tor4, armr4, gun4, fp4, arml4, lega4, legb4, legc4,
+gunx1, gren1, grenx1; 
+
+static-var  bMoving, Static_Var_2, Static_Var_3, bAiming, aimer, regspeed, restore_delay, cloaker, sleeper, shootdef, hasgren;
+
+
+#ifndef MAX_SPEED
+#define MAX_SPEED 75 
+#endif
+
+#ifndef WANT_CLOAK
+#define WANT_CLOAK 77 
+#endif
+
+#define SIG_AIM				2
+#define SIG_AIM2			4
+#define SIG_AIM3			8
+#define SIG_AIM4			16
+#define SIG_AIM5			32
+#define SIG_AIM6			64
+#endif
+
+HitByWeaponId(z,x,id,d) {
+	var hitre;
+	if (id==6) 
+	{ //6 anti inf
+	hitre = rand (50, 150);
+		return hitre;
+	}
+	if ( aimer == 1)
+	{
+	hitre = rand (0, 200);
+		return hitre;
+	}
+	if ( aimer == 2)
+	{
+	hitre = rand (0, 100);
+		return hitre;
+	}
+}
+
+RestoreAfterDelay()
+{
+	sleep restore_delay;
+	hide gunx1;
+	show gun1;
+	turn tor1 to y-axis <10.000000> speed <150.000000>;	
+	turn tur1 to y-axis <0.000000> speed <150.000000>;
+	turn gun1 to y-axis <20.000000> speed <150.000000>;
+	turn hed1 to y-axis <0.000000> speed <150.000000>;
+	turn armr1 to x-axis <45.000000> speed <150.000000>;
+	turn arml1 to x-axis <45.000000> speed <150.000000>;
+	
+	turn tor2 to y-axis <10.000000> speed <150.000000>;	
+	turn tur2 to y-axis <0.000000> speed <150.000000>;
+	turn gun2 to y-axis <20.000000> speed <150.000000>;
+	turn hed2 to y-axis <0.000000> speed <150.000000>;
+	turn armr2 to x-axis <45.000000> speed <150.000000>;
+	turn arml2 to x-axis <45.000000> speed <150.000000>;
+	
+	turn tor3 to y-axis <10.000000> speed <150.000000>;	
+	turn tur3 to y-axis <0.000000> speed <150.000000>;
+	turn gun3 to y-axis <20.000000> speed <150.000000>;
+	turn hed3 to y-axis <0.000000> speed <150.000000>;
+	turn armr3 to x-axis <45.000000> speed <150.000000>;
+	turn arml3 to x-axis <45.000000> speed <150.000000>;
+		
+	turn tor4 to y-axis <10.000000> speed <150.000000>;	
+	turn tur4 to y-axis <0.000000> speed <150.000000>;
+	turn gun4 to y-axis <20.000000> speed <150.000000>;
+	turn hed4 to y-axis <0.000000> speed <150.000000>;
+	turn armr4 to x-axis <45.000000> speed <150.000000>;
+	turn arml4 to x-axis <45.000000> speed <150.000000>;
+	Static_Var_2 = 0;
+}
+
+HeightCheck()
+{
+while(1)
+{
+sleep 500; // refresh period in milliseconds
+move b1 to y-axis get GROUND_HEIGHT(get PIECE_XZ(b1)) - get PIECE_Y(base) now;
+move b2 to y-axis get GROUND_HEIGHT(get PIECE_XZ(b2)) - get PIECE_Y(base) now;
+move b3 to y-axis get GROUND_HEIGHT(get PIECE_XZ(b3)) - get PIECE_Y(base) now;
+move b4 to y-axis get GROUND_HEIGHT(get PIECE_XZ(b4)) - get PIECE_Y(base) now;
+}
+sleep 1;
+}
+
+walk()
+{
+	if( TRUE )
+	{
+		turn lega1 to x-axis <5.670330> now;
+		turn legb1 to x-axis <-26.467033> now;
+		turn tor1 to y-axis <3.335165> now;
+		turn lega2 to x-axis <5.670330> now;
+		turn legb2 to x-axis <-26.467033> now;
+		turn tor2 to y-axis <3.335165> now;
+		turn lega3 to x-axis <5.670330> now;
+		turn legb3 to x-axis <-26.467033> now;
+		turn tor3 to y-axis <3.335165> now;
+		turn lega4 to x-axis <5.670330> now;
+		turn legb4 to x-axis <-26.467033> now;
+		turn tor4 to y-axis <3.335165> now;
+		sleep (32 * sleeper); //22
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <-5.269231> now;
+		turn legb1 to x-axis <-20.989011> now;
+		turn tor1 to y-axis <1.681319> now;
+		turn lega2 to x-axis <-5.269231> now;
+		turn legb2 to x-axis <-20.989011> now;
+		turn tor2 to y-axis <1.681319> now;
+		turn lega3 to x-axis <-5.269231> now;
+		turn legb3 to x-axis <-20.989011> now;
+		turn tor3 to y-axis <1.681319> now;
+		turn lega4 to x-axis <-5.269231> now;
+		turn legb4 to x-axis <-20.989011> now;
+		turn tor4 to y-axis <1.681319> now;
+		sleep (27  * sleeper); //17
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <-9.071429> now;
+		turn legb1 to x-axis <-12.670330> now;
+		turn tor1 to y-axis <0.000000> now;
+		turn lega2 to x-axis <-9.071429> now;
+		turn legb2 to x-axis <-12.670330> now;
+		turn tor2 to y-axis <0.000000> now;
+		turn lega3 to x-axis <-9.071429> now;
+		turn legb3 to x-axis <-12.670330> now;
+		turn tor3 to y-axis <0.000000> now;
+		turn lega4 to x-axis <-9.071429> now;
+		turn legb4 to x-axis <-12.670330> now;
+		turn tor4 to y-axis <0.000000> now;
+		sleep (22  * sleeper); //12
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <-21.357143> now;
+		turn legb1 to x-axis <2.824176> now;
+		turn tor1 to y-axis <-1.769231> now;
+		turn lega2 to x-axis <-21.357143> now;
+		turn legb2 to x-axis <2.824176> now;
+		turn tor2 to y-axis <-1.769231> now;
+		turn lega3 to x-axis <-21.357143> now;
+		turn legb3 to x-axis <2.824176> now;
+		turn tor3 to y-axis <-1.769231> now;
+		turn lega4 to x-axis <-21.357143> now;
+		turn legb4 to x-axis <2.824176> now;
+		turn tor4 to y-axis <-1.769231> now;
+		sleep (20 * sleeper); //10
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <-35.923077> now;
+		turn legb1 to x-axis <7.780220> now;
+		turn tor1 to y-axis <-3.148352> now;
+		turn lega2 to x-axis <-35.923077> now;
+		turn legb2 to x-axis <7.780220> now;
+		turn tor2 to y-axis <-3.148352> now;
+		turn lega3 to x-axis <-35.923077> now;
+		turn legb3 to x-axis <7.780220> now;
+		turn tor3 to y-axis <-3.148352> now;	
+		turn lega4 to x-axis <-35.923077> now;
+		turn legb4 to x-axis <7.780220> now;
+		turn tor4 to y-axis <-3.148352> now;	
+		sleep (22  * sleeper);  //12
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <-37.780220> now;
+		turn legb1 to x-axis <10.137363> now;
+		turn tor1 to y-axis <-4.203297> now;
+		turn lega2 to x-axis <-37.780220> now;
+		turn legb2 to x-axis <10.137363> now;
+		turn tor2 to y-axis <-4.203297> now;
+		turn lega3 to x-axis <-37.780220> now;
+		turn legb3 to x-axis <10.137363> now;
+		turn tor3 to y-axis <-4.203297> now;
+		turn lega4 to x-axis <-37.780220> now;
+		turn legb4 to x-axis <10.137363> now;
+		turn tor4 to y-axis <-4.203297> now;
+		sleep (27  * sleeper); //17
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <-28.758242> now;
+		turn legb1 to x-axis <12.247253> now;
+		turn tor1 to y-axis <-3.148352> now;
+		turn lega2 to x-axis <-28.758242> now;
+		turn legb2 to x-axis <12.247253> now;
+		turn tor2 to y-axis <-3.148352> now;
+		turn lega3 to x-axis <-28.758242> now;
+		turn legb3 to x-axis <12.247253> now;
+		turn tor3 to y-axis <-3.148352> now;
+		turn lega4 to x-axis <-28.758242> now;
+		turn legb4 to x-axis <12.247253> now;
+		turn tor4 to y-axis <-3.148352> now;
+		sleep (32 * sleeper); //22
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <-22.824176> now;
+		turn legb1 to x-axis <2.824176> now;
+		turn tor1 to y-axis <-1.879121> now;
+		turn lega2 to x-axis <-22.824176> now;
+		turn legb2 to x-axis <2.824176> now;
+		turn tor2 to y-axis <-1.879121> now;
+		turn lega3 to x-axis <-22.824176> now;
+		turn legb3 to x-axis <2.824176> now;
+		turn tor3 to y-axis <-1.879121> now;
+		turn lega4 to x-axis <-22.824176> now;
+		turn legb4 to x-axis <2.824176> now;
+		turn tor4 to y-axis <-1.879121> now;	
+		sleep (27 * sleeper);  //17
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <-11.604396> now;
+		turn legb1 to x-axis <-6.725275> now;
+		turn tor1 to y-axis <0.000000> now;
+		turn lega2 to x-axis <-11.604396> now;
+		turn legb2 to x-axis <-6.725275> now;
+		turn tor2 to y-axis <0.000000> now;
+		turn lega3 to x-axis <-11.604396> now;
+		turn legb3 to x-axis <-6.725275> now;
+		turn tor3 to y-axis <0.000000> now;
+		turn lega4 to x-axis <-11.604396> now;
+		turn legb4 to x-axis <-6.725275> now;
+		turn tor4 to y-axis <0.000000> now;
+		sleep (22 * sleeper); //12
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <1.857143> now;
+		turn legb1 to x-axis <-24.357143> now;
+		turn tor1 to y-axis <1.879121> now;
+		turn lega2 to x-axis <1.857143> now;
+		turn legb2 to x-axis <-24.357143> now;
+		turn tor2 to y-axis <1.879121> now;		
+		turn lega3 to x-axis <1.857143> now;
+		turn legb3 to x-axis <-24.357143> now;
+		turn tor3 to y-axis <1.879121> now;		
+		turn lega4 to x-axis <1.857143> now;
+		turn legb4 to x-axis <-24.357143> now;
+		turn tor4 to y-axis <1.879121> now;		
+		sleep (20 * sleeper); //10
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <7.148352> now;
+		turn legb1 to x-axis <-28.181319> now;
+		turn tor1 to y-axis <3.148352> now;
+		turn lega2 to x-axis <7.148352> now;
+		turn legb2 to x-axis <-28.181319> now;
+		turn tor2 to y-axis <3.148352> now;
+		turn lega3 to x-axis <7.148352> now;
+		turn legb3 to x-axis <-28.181319> now;
+		turn tor3 to y-axis <3.148352> now;
+		turn lega4 to x-axis <7.148352> now;
+		turn legb4 to x-axis <-28.181319> now;
+		turn tor4 to y-axis <3.148352> now;
+		sleep (22 * sleeper); //12
+	}
+	turn lega1 to x-axis <8.423077> now;
+	turn legb1 to x-axis <-32.060440> now;
+	turn tor1 to y-axis <4.203297> now;
+	turn lega2 to x-axis <8.423077> now;
+	turn legb2 to x-axis <-32.060440> now;
+	turn tor2 to y-axis <4.203297> now;
+	turn lega3 to x-axis <8.423077> now;
+	turn legb3 to x-axis <-32.060440> now;
+	turn tor3 to y-axis <4.203297> now;
+	turn lega4 to x-axis <8.423077> now;
+	turn legb4 to x-axis <-32.060440> now;
+	turn tor4 to y-axis <4.203297> now;
+	sleep (27 * sleeper); //17
+}
+
+walklegs()
+{
+	if( TRUE )
+	{
+		turn lega1 to x-axis <5.670330> now;
+		turn legb1 to x-axis <-26.467033> now;
+		turn lega2 to x-axis <5.670330> now;
+		turn legb2 to x-axis <-26.467033> now;
+		turn lega3 to x-axis <5.670330> now;
+		turn legb3 to x-axis <-26.467033> now;
+		turn lega4 to x-axis <5.670330> now;
+		turn legb4 to x-axis <-26.467033> now;
+		sleep (32 * sleeper); //22
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <-5.269231> now;
+		turn legb1 to x-axis <-20.989011> now;
+		turn lega2 to x-axis <-5.269231> now;
+		turn legb2 to x-axis <-20.989011> now;
+		turn lega3 to x-axis <-5.269231> now;
+		turn legb3 to x-axis <-20.989011> now;
+		turn lega4 to x-axis <-5.269231> now;
+		turn legb4 to x-axis <-20.989011> now;
+		sleep (27 * sleeper); //17
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <-9.071429> now;
+		turn legb1 to x-axis <-12.670330> now;
+		turn lega2 to x-axis <-9.071429> now;
+		turn legb2 to x-axis <-12.670330> now;
+		turn lega3 to x-axis <-9.071429> now;
+		turn legb3 to x-axis <-12.670330> now;
+		turn lega4 to x-axis <-9.071429> now;
+		turn legb4 to x-axis <-12.670330> now;
+		sleep (22 * sleeper);
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <-21.357143> now;
+		turn legb1 to x-axis <2.824176> now;
+		turn lega2 to x-axis <-21.357143> now;
+		turn legb2 to x-axis <2.824176> now;
+		turn lega3 to x-axis <-21.357143> now;
+		turn legb3 to x-axis <2.824176> now;
+		turn lega4 to x-axis <-21.357143> now;
+		turn legb4 to x-axis <2.824176> now;
+		sleep (20 * sleeper);
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <-35.923077> now;
+		turn legb1 to x-axis <7.780220> now;
+		turn lega2 to x-axis <-35.923077> now;
+		turn legb2 to x-axis <7.780220> now;
+		turn lega3 to x-axis <-35.923077> now;
+		turn legb3 to x-axis <7.780220> now;
+		turn lega4 to x-axis <-35.923077> now;
+		turn legb4 to x-axis <7.780220> now;
+		sleep (22 * sleeper);
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <-37.780220> now;
+		turn legb1 to x-axis <10.137363> now;
+		turn lega2 to x-axis <-37.780220> now;
+		turn legb2 to x-axis <10.137363> now;
+		turn lega3 to x-axis <-37.780220> now;
+		turn legb3 to x-axis <10.137363> now;
+		turn lega4 to x-axis <-37.780220> now;
+		turn legb4 to x-axis <10.137363> now;
+		sleep (27 * sleeper);
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <-28.758242> now;
+		turn legb1 to x-axis <12.247253> now;
+		turn lega2 to x-axis <-28.758242> now;
+		turn legb2 to x-axis <12.247253> now;
+		turn lega3 to x-axis <-28.758242> now;
+		turn legb3 to x-axis <12.247253> now;
+		turn lega4 to x-axis <-28.758242> now;
+		turn legb4 to x-axis <12.247253> now;
+		sleep (32 * sleeper);
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <-22.824176> now;
+		turn legb1 to x-axis <2.824176> now;
+		turn lega2 to x-axis <-22.824176> now;
+		turn legb2 to x-axis <2.824176> now;
+		turn lega3 to x-axis <-22.824176> now;
+		turn legb3 to x-axis <2.824176> now;
+		turn lega4 to x-axis <-22.824176> now;
+		turn legb4 to x-axis <2.824176> now;
+		sleep (27 * sleeper);
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <-11.604396> now;
+		turn legb1 to x-axis <-6.725275> now;
+		turn lega2 to x-axis <-11.604396> now;
+		turn legb2 to x-axis <-6.725275> now;
+		turn lega3 to x-axis <-11.604396> now;
+		turn legb3 to x-axis <-6.725275> now;
+		turn lega4 to x-axis <-11.604396> now;
+		turn legb4 to x-axis <-6.725275> now;
+		sleep (22 * sleeper);
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <1.857143> now;
+		turn legb1 to x-axis <-24.357143> now;
+		turn lega2 to x-axis <1.857143> now;
+		turn legb2 to x-axis <-24.357143> now;
+		turn lega3 to x-axis <1.857143> now;
+		turn legb3 to x-axis <-24.357143> now;
+		turn lega4 to x-axis <1.857143> now;
+		turn legb4 to x-axis <-24.357143> now;
+		sleep (20 * sleeper);
+	}
+	if( TRUE )
+	{
+		turn lega1 to x-axis <7.148352> now;
+		turn legb1 to x-axis <-28.181319> now;
+		turn lega2 to x-axis <7.148352> now;
+		turn legb2 to x-axis <-28.181319> now;
+		turn lega3 to x-axis <7.148352> now;
+		turn legb3 to x-axis <-28.181319> now;
+		turn lega4 to x-axis <7.148352> now;
+		turn legb4 to x-axis <-28.181319> now;
+		sleep (22 * sleeper);
+	}
+	turn lega1 to x-axis <8.423077> now;
+	turn legb1 to x-axis <-32.060440> now;
+	turn lega2 to x-axis <8.423077> now;
+	turn legb2 to x-axis <-32.060440> now;
+	turn lega3 to x-axis <8.423077> now;
+	turn legb3 to x-axis <-32.060440> now;
+	turn lega4 to x-axis <8.423077> now;
+	turn legb4 to x-axis <-32.060440> now;
+	sleep (27 * sleeper);
+}
+
+MotionControl(moving, aiming, justmoved)
+{
+	justmoved = TRUE;
+	while( TRUE )
+	{
+		moving = bMoving;
+		aiming = bAiming;
+		if( moving )
+		{
+			if( aiming )
+			{
+				Static_Var_3 = 1;
+				call-script walklegs();
+			}
+			if( !aiming )
+			{
+				Static_Var_3 = 0;
+				call-script walk();
+			}
+			justmoved = TRUE;
+		}
+		if( !moving )
+		{
+			Static_Var_3 = 1;
+			if( justmoved )
+			{
+				turn lega1 to x-axis <0.000000> speed <200.043956>;
+				turn legb1 to x-axis <0.000000> speed <200.043956>;
+				turn lega2 to x-axis <0.000000> speed <200.043956>;
+				turn legb2 to x-axis <0.000000> speed <200.043956>;
+				turn lega3 to x-axis <0.000000> speed <200.043956>;
+				turn legb3 to x-axis <0.000000> speed <200.043956>;
+				turn lega4 to x-axis <0.000000> speed <200.043956>;
+				turn legb4 to x-axis <0.000000> speed <200.043956>;
+				if( !aiming )
+				{
+					turn tur1 to x-axis <0.000000> speed <90.021978>;
+					turn tur2 to x-axis <0.000000> speed <90.021978>;
+					turn tur3 to x-axis <0.000000> speed <90.021978>;
+					turn tur4 to x-axis <0.000000> speed <90.021978>;
+					turn tor1 to x-axis <0.000000> speed <90.021978>;
+					turn tor2 to x-axis <0.000000> speed <90.021978>;
+					turn tor3 to x-axis <0.000000> speed <90.021978>;
+					turn tor4 to x-axis <0.000000> speed <90.021978>;
+				}
+				justmoved = FALSE;
+			}
+			sleep 100;
+		}
+	}
+}
+
+
+whatiscloak()
+{
+while (TRUE)
+{
+cloaker = get WANT_CLOAK;
+if (cloaker == 1 AND aimer == 1)
+{
+set MAX_SPEED to (regspeed / 2);
+sleeper=2;
+}
+if (cloaker == 0 AND aimer == 1)
+{
+set MAX_SPEED to regspeed;
+sleeper=1;
+}
+if (cloaker == 0 AND aimer == 2)
+{
+set MAX_SPEED to 1; //zero move?
+sleeper=1;
+}
+sleep 500;
+}
+sleep 100;
+
+}
+
+undeploy()
+{
+	aimer = 0;
+	show lega1;
+	show legb1;
+	hide legc1;
+	move pel1 to y-axis [0] speed <500.038462>;
+	show lega2;
+	show legb2;
+	hide legc2;
+	move pel2 to y-axis [0] speed <500.038462>;
+	show lega3;
+	show legb3;
+	hide legc3;
+	move pel3 to y-axis [0] speed <500.038462>;
+	show lega4;
+	show legb4;
+	hide legc4;
+	move pel4 to y-axis [0] speed <500.038462>;
+	sleep 1000;	
+	set MAX_SPEED to regspeed;
+	aimer = 1;
+}
+
+deploy()
+{
+	aimer = 0;
+	set MAX_SPEED to 1;
+	hide lega1;
+	hide legb1;
+	show legc1;
+	move pel1 to y-axis [-0.9] speed <500.038462>;
+	hide lega2;
+	hide legb2;
+	show legc2;
+	move pel2 to y-axis [-0.9] speed <500.038462>;
+	hide lega3;
+	hide legb3;
+	show legc3;
+	move pel3 to y-axis [-0.9] speed <500.038462>;
+	hide lega4;
+	hide legb4;
+	show legc4;
+	move pel4 to y-axis [-0.9] speed <500.038462>;
+	sleep 1000;
+	aimer = 2;
+}
+
+
+Toggle(t,value) 
+{
+
+if(t==1)
+	{
+	if(value==0)
+		{
+		call-script undeploy();
+		}
+
+	if(value==1)
+		{	
+		call-script deploy();	
+		}
+	}
+}
+
+Create()
+{
+hide legc1;
+hide legc2;
+hide legc3;
+hide legc4;
+	hide gunx1;
+	show grenx1;
+	hide gren1;
+	turn armr1 to x-axis <45.000000> speed <150.000000>;
+	turn arml1 to x-axis <45.000000> speed <150.000000>;
+	turn armr2 to x-axis <45.000000> speed <150.000000>;
+	turn arml2 to x-axis <45.000000> speed <150.000000>;
+	turn armr3 to x-axis <45.000000> speed <150.000000>;
+	turn arml3 to x-axis <45.000000> speed <150.000000>;
+	turn armr4 to x-axis <45.000000> speed <150.000000>;
+	turn arml4 to x-axis <45.000000> speed <150.000000>;
+	regspeed = get MAX_SPEED;
+	shootdef = 0;
+	hasgren = 1;
+	aimer = 1;
+	cloaker = 0;
+	sleeper = 1;
+	bMoving = FALSE;
+	Static_Var_2 = 0;
+	Static_Var_3 = 1;
+	restore_delay = 4000;
+	start-script MotionControl();
+	start-script whatiscloak();
+	start-script HeightCheck();
+}
+
+SetMaxReloadTime(Func_Var_1)
+{
+	restore_delay = Func_Var_1 * 4;
+}
+
+StartMoving()
+{
+	bMoving = TRUE;
+}
+
+StopMoving()
+{
+	bMoving = FALSE;
+}
+
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
+
+reload()
+{
+hasgren = 2; //getting gren
+sleep 10000;
+hasgren = 1;
+show grenx1;
+}
+
+AimFromPrimary(Func_Var_1)
+{
+	Func_Var_1 = tur1;
+}
+
+QueryPrimary(Func_Var_1)
+{
+	Func_Var_1 = fp1; 
+}
+
+AimPrimary(heading, pitch)
+{
+	if (aimer == 2 or aimer == 0)
+	{
+	return 0;
+	}
+	if (aimer == 1)
+	{
+	shootdef = 1;
+	hide gun1;
+	show gunx1;
+	hide grenx1;
+	show gren1;
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	turn gun1 to y-axis <0> speed <150.038462>;
+	turn armr1 to x-axis 0- pitch speed <80.038462>;
+	turn arml1 to x-axis 0- pitch speed <80.038462>;
+	turn tur1 to y-axis heading speed <80.038462>;
+	turn tor1 to y-axis <0> speed <150.038462>;
+	wait-for-turn tur1 around y-axis;
+	wait-for-turn tor1 around y-axis;
+	start-script RestoreAfterDelay();
+	return (1);
+	}
+}
+
+FireWeapon1()
+{
+hide gren1;
+hasgren = 0;
+start-script reload();
+}
+
+AimFromSecondary(Func_Var_1)
+{
+	Func_Var_1 = tur2;
+}
+
+QuerySecondary(Func_Var_1)
+{
+Func_Var_1 = fp2; 
+}
+
+AimSecondary(heading, pitch)
+{
+	signal SIG_AIM2;
+	set-signal-mask SIG_AIM2;
+	turn gun2 to y-axis <0> speed <150.038462>;
+	turn armr2 to x-axis 0- pitch speed <80.038462>;
+	turn arml2 to x-axis 0- pitch speed <80.038462>;
+	turn tur2 to y-axis heading speed <80.038462>;
+	turn tor2 to y-axis <0> speed <150.038462>;
+	wait-for-turn tur2 around y-axis;
+	wait-for-turn tor2 around y-axis;
+	start-script RestoreAfterDelay();
+	return (1);
+}
+
+QueryWeapon3(Func_Var_1)
+{
+Func_Var_1 = fp3; 
+}
+
+AimWeapon3(heading, pitch)
+{
+	signal SIG_AIM3;
+	set-signal-mask SIG_AIM3;
+	turn gun3 to y-axis <0> speed <150.038462>;
+	turn armr3 to x-axis 0- pitch speed <80.038462>;
+	turn arml3 to x-axis 0- pitch speed <80.038462>;
+	turn tur3 to y-axis heading speed <80.038462>;
+	turn tor3 to y-axis <0> speed <150.038462>;
+	wait-for-turn tur3 around y-axis;
+	wait-for-turn tor3 around y-axis;
+	start-script RestoreAfterDelay();
+	return (1);
+}
+
+QueryWeapon4(Func_Var_1)
+{
+Func_Var_1 = fp4; 
+}
+
+AimWeapon4(heading, pitch)
+{
+	signal SIG_AIM4;
+	set-signal-mask SIG_AIM4;
+	turn gun4 to y-axis <0> speed <150.038462>;
+	turn armr4 to x-axis 0- pitch speed <80.038462>;
+	turn arml4 to x-axis 0- pitch speed <80.038462>;
+	turn tur4 to y-axis heading speed <80.038462>;
+	turn tor4 to y-axis <0> speed <150.038462>;
+	wait-for-turn tur4 around y-axis;
+	wait-for-turn tor4 around y-axis;
+	start-script RestoreAfterDelay();
+	return (1);
+}
+
+QueryWeapon5(Func_Var_1)
+{
+Func_Var_1 = fp1; 
+}
+
+AimWeapon5(heading, pitch)
+{
+	if (shootdef == 1)
+	{
+	return 0;
+	}
+	if (shootdef == 0)
+	{
+	signal SIG_AIM5;
+	set-signal-mask SIG_AIM5;
+	turn gun1 to y-axis <0> speed <150.038462>;
+	turn armr1 to x-axis 0- pitch speed <80.038462>;
+	turn arml1 to x-axis 0- pitch speed <80.038462>;
+	turn tur1 to y-axis heading speed <80.038462>;
+	turn tor1 to y-axis <0> speed <150.038462>;
+	wait-for-turn tur1 around y-axis;
+	wait-for-turn tor1 around y-axis;
+	start-script RestoreAfterDelay();
+	return (1);
+	}
+}
+
+AimFromWeapon6(Func_Var_1)
+{
+	Func_Var_1 = tur1;
+}
+
+QueryWeapon6(Func_Var_1)
+{
+	Func_Var_1 = fp1; 
+}
+
+AimWeapon6(heading, pitch)
+{
+	if (aimer == 1 or aimer == 0)
+	{
+	return 0;
+	}
+	if (aimer == 2)
+	{
+	shootdef = 1;
+	hide gun1;
+	show gunx1;
+	hide grenx1;
+	show gren1;
+	signal SIG_AIM6;
+	set-signal-mask SIG_AIM6;
+	turn armr1 to x-axis 0- pitch speed <80.038462>;
+	turn arml1 to x-axis 0- pitch speed <80.038462>;
+	turn tur1 to y-axis heading speed <80.038462>;
+	turn tor1 to y-axis <0> speed <150.038462>;
+	wait-for-turn tur1 around y-axis;
+	wait-for-turn tor1 around y-axis;
+	start-script RestoreAfterDelay();
+	if (hasgren == 0)
+		{
+		start-script reload();
+		}
+	if (hasgren == 1)
+		{
+		return (1);
+		}
+	}
+}
+
+FireWeapon6()
+{
+hide gren1;
+hasgren = 0;
+start-script reload();
+}
+
+Killed(severity, corpsetype)
+{
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+	}
+	if( severity > 499 )
+	{
+		corpsetype = 3;
+		explode tor1 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
+		explode tor2 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP4;
+		explode tor3 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP1;
+		explode tor4 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP4;
+		explode pel1 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP2;
+		explode pel2 type FALL | FIRE | SMOKE | EXPLODE_ON_HIT | BITMAP3;
+		explode pel3 type SHATTER | EXPLODE_ON_HIT | BITMAP5;
+		return (0);
+	}
+	corpsetype = 1;
+}

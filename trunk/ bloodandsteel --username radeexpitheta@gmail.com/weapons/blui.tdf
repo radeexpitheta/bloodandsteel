@@ -1,0 +1,508 @@
+[bluigun] 
+{
+  name=Rifle;
+  accuracy=300;
+  leadbonus=1;
+  areaOfEffect=8;
+  impactOnly=1;
+  avoidFeature=0;
+  avoidFriendly=0;
+  beamweapon=1;
+  burnblow=1;
+  burst=3;
+  burstRate=0.1;
+  canAttackGround=0;
+  collideFeature=1;
+  //collisionSize=3;
+  edgeEffectiveness=1;
+  fireStarter=1;
+  lineofsight=1;
+  noSelfDamage=1;
+  range=600;
+  reloadTime=1.5;
+  rendertype=0;
+  rgbColor=1.0 0.70 0.2;
+  size=0.2;
+  thickness=0.8;
+
+  soundStart=Rifle;
+  soundstartvolume=0.5;
+  soundTrigger=1;
+
+  sprayAngle=300;
+  tolerance=600;
+  turret=1;
+  weaponTimer=1;
+  weaponVelocity=900;
+
+explosionGenerator=custom:Bullet;
+
+  InterceptedByShieldType=2;
+	[DAMAGE] 
+{
+    default=5;
+	veh=0;
+	base=0;
+  }
+}
+
+[bluiiwp1] 
+{
+  name=Machinegun;
+  accuracy=400;
+  leadbonus=1;
+  areaOfEffect=8;
+  impactOnly=1;
+  avoidFeature=0;
+  avoidFriendly=0;
+  beamweapon=1;
+  burnblow=1;
+  burst=6;
+  burstRate=0.1;
+  canAttackGround=0;
+  collideFeature=1;
+  //collisionSize=3;
+  edgeEffectiveness=1;
+  fireStarter=1;
+  lineofsight=1;
+  noSelfDamage=1;
+  range=800;
+  reloadTime=3;
+  rendertype=0;
+  rgbColor=1.0 0.70 0.2;
+  size=0.2;
+  thickness=1;
+  soundStart=gunfire;
+  soundstartvolume=0.5;
+  soundTrigger=1;
+  sprayAngle=500;
+  tolerance=600;
+  turret=1;
+  weaponTimer=1;
+  weaponVelocity=900;
+
+explosionGenerator=custom:Bullet;
+
+  InterceptedByShieldType=2;
+	[DAMAGE] 
+{
+    default=10;
+	base=0;
+	veh=5;
+  }
+}
+
+[bluiiwp2] 
+{
+  name=Machinegun Deployed;
+  accuracy=300;
+  leadbonus=1;
+  areaOfEffect=8;
+  impactOnly=1;
+  avoidFeature=0;
+  avoidFriendly=0;
+  beamweapon=1;
+  burnblow=1;
+  burst=6;
+  burstRate=0.1;
+  canAttackGround=0;
+  collideFeature=1;
+  //collisionSize=3;
+  edgeEffectiveness=1;
+  fireStarter=1;
+  lineofsight=1;
+  noSelfDamage=1;
+  range=800;
+  heightBoostFactor=1;
+  reloadTime=2;
+  rendertype=0;
+  rgbColor=1.0 0.70 0.2;
+  size=0.2;
+  thickness=1;
+  soundStart=gunfire;
+  soundstartvolume=0.5;
+  soundTrigger=1;
+  sprayAngle=400;
+  tolerance=600;
+  turret=1;
+  weaponTimer=1;
+  weaponVelocity=900;
+
+explosionGenerator=custom:Bullet;
+
+  InterceptedByShieldType=2;
+	[DAMAGE] 
+{
+    default=10;
+	base=0;
+	veh=5;
+  }
+}
+
+[bluivwpn1]
+	{
+	name=Recoiless Rifle;
+	rendertype=4;
+	ballistic=1;
+	turret=1;
+
+	energypershot=0;
+	range=400;
+	reloadtime=10;
+	weaponvelocity=900;
+	areaofeffect=20;
+	edgeeffectiveness=1;
+
+	soundstart=rockfire2;
+	soundhit=rockhit2;
+
+	firestarter=50;
+	accuracy=300;
+	aimrate=1000;
+	tolerance=300;
+	holdtime=1;
+
+explosiongenerator=custom:SMALLMISSILE_EXPLOSION;
+
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+	startsmoke=1;
+
+	InterceptedByShieldType=2;
+	[DAMAGE]
+		{
+		default=200;
+		gendi=2000;
+		veh=800; //was 300
+		inf=75; //was 150
+		base=0;
+		}
+	}
+
+[bluivwpn2]
+	{
+	name=Rapid Recoiless Rifle;
+	rendertype=4;
+	ballistic=1;
+	turret=1;
+
+	energypershot=0;
+	range=300;
+	reloadtime=20;
+	burst=3;
+	burstrate=1;
+	weaponvelocity=900;
+	areaofeffect=20;
+	edgeeffectiveness=1;
+
+	soundstart=rockfire2;
+	soundhit=rockhit2;
+
+	firestarter=50;
+	accuracy=300;
+	aimrate=1000;
+	tolerance=300;
+	holdtime=1;
+
+explosiongenerator=custom:SMALLMISSILE_EXPLOSION;
+
+	startsmoke=1;
+
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+	InterceptedByShieldType=2;
+	[DAMAGE]
+		{
+		default=200;
+		gendi=2000;
+		veh=600; //was 300
+		inf=75;  //was 150
+		base=0;
+		}
+	}
+
+[bluirwpn1] 
+{
+  name=Sniper Rifle;
+  accuracy=50;
+  leadbonus=1;
+  areaOfEffect=8;
+  avoidFeature=1;
+  avoidFriendly=1;
+  beamweapon=1;
+  burnblow=1;
+  canAttackGround=0;
+  collideFeature=1;
+  //collisionSize=3;
+  edgeEffectiveness=1;
+  fireStarter=1;
+  lineofsight=1;
+  noSelfDamage=1;
+  range=1000;
+  heightBoostFactor=1;
+  reloadTime=7.5;
+  rendertype=0;
+  rgbColor=1.0 0.70 0.2;
+  size=0.2;
+  thickness=1;
+  soundStart=Rifle;
+  soundTrigger=1;
+  tolerance=600;
+  turret=1;
+  weaponTimer=1;
+  weaponVelocity=900;
+
+explosionGenerator=custom:Bullet;
+
+InterceptedByShieldType=3; //not 2
+	[DAMAGE]
+{
+    default=150;
+	base=0;
+	def=50;
+	inf=250;
+  }
+}
+
+[bluiawpn1]
+	{
+	name=Anti Air Missile;
+	rendertype=1;
+	lineofsight=1;
+	turret=1;
+	toairweapon=1;
+	model=genaamis.s3o;
+	range=500; //was 400 default and previous to b03
+	reloadtime=15;
+	weapontimer=5;
+	weaponvelocity=1200;
+	startvelocity=650;
+	weaponacceleration=450;
+	turnrate=24000; //not 56k!
+	areaofeffect=50;
+	edgeeffectiveness=1;
+	metalpershot=0;
+	energypershot=0;
+	soundstart=missile2;
+	soundhit=smallexplo;
+	soundtrigger=1;
+	firestarter=72;
+	smokedelay=0.1;
+	guidance=1;
+	tracks=1;
+ 	selfprop=1;
+	smoketrail=1;
+	tolerance=9950;
+	explosiongenerator=custom:MISSILE_EXPLOSION;
+	startsmoke=1;
+
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+	noselfdamage=1;
+
+	InterceptedByShieldType=2;
+	[DAMAGE]
+		{
+		default=300;
+		base=0;
+		inf=75; //was 150
+		air=900;
+		}
+	}
+
+[bluiawpn2]
+	{
+	name=Dumbfire Missile;
+	name=Mortar;
+	rendertype=1;
+	turret=1;
+	ballistic=1;
+	smoketrail=1;
+	smokedelay=0.5;
+
+	TrajectoryHeight=1.8; //was1
+	heightBoostFactor=1;
+	model=genaamis.s3o;
+		
+	range=1200;
+	reloadtime=37;
+	
+	weaponvelocity=350; 
+	startvelocity=250; 
+	weaponacceleration=50;
+	accuracy=800; 
+
+	areaofeffect=50; 
+	edgeeffectiveness=1;
+
+	metalpershot=0;
+      energypershot=0;	
+
+	soundstart=rockfire2;
+	soundhit=ArtHit;
+		
+	firestarter=70;
+	explosiongenerator=custom:MISSILE_EXPLOSION;
+	selfprop=1;
+	tolerance=1000;
+
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+
+	InterceptedByShieldType=2;
+	[DAMAGE]
+		{
+		default=300;
+		inf=200;
+		base=0;
+		air=20;
+		}
+	}
+
+
+[bluidwpn2]
+	{
+	id=2; //important to hurt base
+	name=Satchel;
+	rendertype=6;
+	ballistic=1;
+	turret=1;
+	     
+      model=blunade.s3o; 
+
+	noselfdamage=1; //doesnt work
+	myGravity=.1;
+	range=80;
+	reloadtime=10;
+	weapontimer=10; 
+	weaponvelocity=80;
+	areaofeffect=100;
+	accuracy=150;
+	edgeeffectiveness=1;
+	minbarrelangle=-45;
+	holdtime=2;
+
+	soundhit=basedeath;
+
+	tolerance=1000;
+	sprayangle=300;
+
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+	smoketrail=1;
+	explosionGenerator=custom:BIGBOMB_EXPLOSION;
+	startsmoke=1;
+
+	InterceptedByShieldType=1;
+	[DAMAGE]
+		{
+		default=0;
+		def=1200;	
+		base=1250;
+		gendi=6600; //anti buker
+		bluid=0;
+		}
+	}
+
+[bluidwpn1]
+	{
+	name=Grenades;
+	rendertype=6;
+	ballistic=1;
+	turret=1;
+	     
+      model=blunade.s3o; 
+
+	noselfdamage=1; //doesnt work
+	myGravity=0.1;
+	range=120;
+	reloadtime=3;
+	weapontimer=10; 
+	weaponvelocity=80;
+	areaofeffect=25;
+	accuracy=800;
+
+	groundbounce=1;
+	bounceslip=0.5;
+	bouncerebound=0.5;
+	numbounce=2;	
+
+	edgeeffectiveness=1;
+	minbarrelangle=-45;
+	holdtime=2;
+
+	soundhit=basedeath;
+
+	tolerance=1000;
+	sprayangle=200;
+
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+	smoketrail=1;
+	explosionGenerator=custom:SMALLMISSILE_EXPLOSION;
+	startsmoke=1;
+
+	InterceptedByShieldType=1; //not 2
+	[DAMAGE]
+		{
+		default=150;
+		inf=300;	
+		veh=150;
+		base=0;
+		}
+	}
+
+[traps]
+{
+name=Satchel Mine; //doesnt work in spring
+rendertype=1;
+lineofsight=1;
+turret=1;
+
+model=blunade.s3o;
+
+canAttackGround=1;
+range=50;
+reloadtime=16;
+weapontimer=600; //10mins?
+weaponvelocity=1;
+areaofeffect=150;
+soundhit=basedeath;
+noselfdamage=1;
+
+	CollideFriendly=0; //both this and avoid or lots of FF
+	AvoidFriendly=0;
+
+energypershot=0;
+metalpershot=0;
+
+	explosionGenerator=custom:BIGBOMB_EXPLOSION;
+
+InterceptedByShieldType=1; //not2
+	[DAMAGE]
+{
+default=650;
+inf=150;
+bluid=0;
+base=0;
+}
+
+}

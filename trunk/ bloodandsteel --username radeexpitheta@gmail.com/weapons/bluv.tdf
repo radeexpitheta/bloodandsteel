@@ -1,0 +1,365 @@
+[bluvrwpn1] 
+{
+  name=Heavy Machinegun;
+  accuracy=100;
+  areaOfEffect=10;
+  impactOnly=1;
+  avoidFeature=0;
+  avoidFriendly=0;
+  beamweapon=1;
+  burnblow=1;
+  burst=24;
+  burstRate=0.03;
+  collideFeature=1;
+  collisionSize=3;
+  edgeEffectiveness=1;
+  fireStarter=1;
+  lineofsight=1;
+  noSelfDamage=1;
+  range=800;
+  reloadTime=2;
+  rendertype=0;
+  rgbColor=1.0 0.70 0.2;
+  size=0.3;
+
+  soundStart=mgun;
+  soundTrigger=1;
+
+  sprayAngle=500;
+  tolerance=600;
+  turret=1;
+  weaponTimer=1;
+  weaponVelocity=1500;
+
+explosionGenerator=custom:Bullet;
+
+  InterceptedByShieldType=2;
+	[DAMAGE] 
+{
+    default=20;
+	base=0;
+	veh=10;
+	air=30;
+  }
+}
+
+[bluvvwpn1]
+	{
+	name=Heavy Cannon;
+	rendertype=4;
+	ballistic=1;
+	turret=1;
+
+	energypershot=0;
+	range=600;
+	reloadtime=3;
+	weaponvelocity=900;
+	areaofeffect=20;
+	edgeeffectiveness=1;
+
+	soundstart=Cannon;
+	soundhit=canhit;
+
+	firestarter=50;
+	accuracy=300;
+	aimrate=1000;
+	tolerance=300;
+	holdtime=1;
+
+explosiongenerator=custom:SMALLMISSILE_EXPLOSION;
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+	startsmoke=1;
+
+	InterceptedByShieldType=2;
+	[DAMAGE]
+		{
+		default=1200;
+		base=0;
+		inf=100;
+		def=800;
+		}
+	}
+
+[bluvvwpn2]
+	{
+	name=AP Heavy Cannon;
+	rendertype=4;
+	ballistic=1;
+	turret=1;
+
+	energypershot=0;
+	range=600;
+	reloadtime=4;
+	weaponvelocity=1500;
+	areaofeffect=8;
+  	impactOnly=1;  // AP sabot
+	edgeeffectiveness=1;
+
+	soundstart=canhit;
+	soundhit=smallexplo;
+
+	firestarter=50;
+	accuracy=300;
+	aimrate=1000;
+	tolerance=300;
+	holdtime=1;
+
+explosiongenerator=custom:SMALLMISSILE_EXPLOSION;
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+	startsmoke=1;
+
+	InterceptedByShieldType=2;
+	[DAMAGE]
+		{
+		default=2400;
+		def=1200;
+		inf=50;
+		base=0;
+		}
+	}
+
+[bluviwpn1]
+	{
+	name=Auto Cannon;
+	rendertype=4;
+	ballistic=1;
+	turret=1;
+
+	energypershot=0;
+	range=800;
+	reloadtime=2;
+	weaponvelocity=900;
+	areaofeffect=15;
+	edgeeffectiveness=1;
+	burst=3;
+	burstrate=0.6;
+
+	soundstart=medcan;
+	soundhit=smallexplo;
+	soundTrigger=1;
+
+	firestarter=50;
+	accuracy=300;
+	aimrate=1000;
+	tolerance=300;
+	holdtime=1;
+
+explosiongenerator=custom:flashplosion;
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+	startsmoke=1;
+
+	InterceptedByShieldType=2;
+	[DAMAGE]
+		{
+		default=150;
+		air=200;
+		def=100;
+		base=0;
+		}
+	}
+
+[bluvawpn1]
+	{
+	name=Anti Air Missile;
+	rendertype=1;
+	lineofsight=1;
+	turret=1;
+	toairweapon=1;
+	model=genaamis.s3o;
+	range=800;
+	heightMod=0.5;
+	reloadtime=8;
+	weapontimer=5;
+	weaponvelocity=1200;
+	startvelocity=600;
+	weaponacceleration=450;
+	turnrate=32000; //64k is perfect 48 aadef
+	areaofeffect=50;
+	metalpershot=0;
+	energypershot=0;
+	soundstart=missile2;
+	soundhit=medexplo;
+	soundtrigger=1;
+	firestarter=72;
+	smokedelay=0.1;
+	guidance=1;
+	tracks=1;
+	selfprop=1;
+	smoketrail=1;
+	tolerance=9950;
+	explosiongenerator=custom:MISSILE_EXPLOSION;
+	startsmoke=1;
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+	noselfdamage=1;
+
+	InterceptedByShieldType=2;
+	[DAMAGE]
+		{
+		default=960;
+		inf=10;
+		base=0;
+		}
+	}
+
+[bluvawpn2]
+	{
+	name=Dumbfire Missiles;
+	rendertype=1;
+	lineofsight=1;
+	turret=1;
+	ballistic=0;
+	smoketrail=1;
+	smokedelay=.1;
+	model=genaamis.s3o;
+		
+	accuracy=2000;
+	range=800;
+	wobble=1000;
+	reloadtime=32;
+	burst=4;
+	burstrate=0.8;
+	areaofeffect=50;
+
+	weapontimer=5;
+	weaponvelocity=650;
+	startvelocity=350;
+	weaponacceleration=320;
+	turnrate=2000;
+	
+	metalpershot=0;
+      energypershot=0;	
+
+	soundstart=Rocket;
+	soundhit=medexplo;
+	soundTrigger=1;
+
+	
+	firestarter=70;
+	guidance=1;
+	tracks=1;
+	selfprop=1;
+	TrajectoryHeight=0.5;
+	tolerance=1000;
+
+	explosiongenerator=custom:MISSILE_EXPLOSION;
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+	startsmoke=1;
+
+	InterceptedByShieldType=2;
+	[DAMAGE]
+		{
+		default=960;
+		inf=150;
+		def=500;
+		base=0;
+		}
+	}
+
+[bluvdwpn1]
+	{
+	name=Heavy Cannon;
+	rendertype=4;
+	ballistic=1;
+	turret=1;
+
+	movingaccuracy=4000; //new as of 02b
+
+	energypershot=0;
+	range=2400;
+	reloadtime=5;
+	weaponvelocity=900;
+	areaofeffect=50;
+	edgeeffectiveness=1;
+
+	soundstart=Cannon;
+	soundhit=bigexplo;
+
+	firestarter=50;
+	accuracy=100;
+	aimrate=1000;
+	tolerance=300;
+	holdtime=1;
+
+explosiongenerator=custom:ARTILLERY_EXPLOSION;
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+	startsmoke=1;
+
+	InterceptedByShieldType=2;
+	[DAMAGE]
+		{
+		default=1000;
+		base=0;
+		inf=200;
+		}
+	}
+
+[bluvdwpn2]
+	{
+	name=Rapid Heavy Cannon;
+	rendertype=4;
+	ballistic=1;
+	turret=1;
+
+	energypershot=0;
+	minbarrelangle=-60;
+	range=2400;
+	reloadtime=30;
+	trajectoryHeight=2;
+	burst=6;
+	burstRate=0.5;
+	weaponvelocity=900;
+	areaofeffect=50;
+	edgeeffectiveness=1;
+
+	soundstart=Cannon;
+	soundhit=bigexplo;
+	SoundTrigger=1;
+
+	firestarter=50;
+	accuracy=200;
+	aimrate=1000;
+	tolerance=300;
+	holdtime=1;
+
+explosiongenerator=custom:ARTILLERY_EXPLOSION;
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+
+	startsmoke=1;
+
+	InterceptedByShieldType=2;
+	[DAMAGE]
+		{
+		default=1000;
+		def=1500;
+		veh=800;
+		base=0;
+		inf=150;
+		}
+	}

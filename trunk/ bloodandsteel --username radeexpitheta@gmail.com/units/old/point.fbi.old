@@ -1,0 +1,49 @@
+[UNITINFO]
+{
+	Name=Objective;
+	Unitname=point;
+	Description=Capture to receive reinforcements more frequently;
+
+	shootme=false;
+	// Required Tags
+	BuildCostMetal=100;
+	ShowNanoFrame=0;
+	icontype=obj;
+	Category=NOTARGET;
+	FootprintX=8;
+	FootprintZ=8;
+	MaxSlope=255;
+	MaxDamage=20000;
+	ObjectName=citi.s3o;
+	SoundCategory=COMPUTER;
+	TEDClass=NOTARGET;
+
+	// Movement
+	CanMove=0;
+
+	// Airplane Moventment
+
+	// Buildings
+	yardmap=oooyyooo oooyyooo oooyyooo yyyyyyyy yyyyyyyy oooyyooo oooyyooo oooyyooo;
+	LevelGround=1;
+
+	// Construction
+
+	// Resources
+
+	// Abilities
+	CanStop=1;
+
+	// Sight/Radar
+	RadarDistance=0;
+	SightDistance=0;
+
+	// Weapons
+	weapon1=cityblock;
+
+	//hit box
+	collisionVolumeType=ellipsoid;
+  collisionVolumeOffsets=0 5 0;
+  collisionVolumeScales=54 10 54;
+
+}

@@ -1,0 +1,82 @@
+[UNITINFO]
+	{
+	UnitName=bluva;
+	autoHeal=0;
+	Version=1;
+	Side=blu;
+	Objectname=bluva.s3o;
+	Designation=blu-aavh;
+	Name=Vulture;
+	Description=Air Defense Vehicle;
+	icontype=va;
+	FootprintX=1;
+	FootprintZ=1;
+	mass=35000;
+	BuildCostEnergy=0;
+	BuildCostMetal=0;
+	MaxDamage=6000;
+	IdleAutoHeal=50;
+	IdleTime=300;
+	CrushStrength=60; 
+	MaxWaterDepth=12;
+	MaxSlope=35;
+	BuildTime=0;
+	WorkerTime=0;
+	BMcode=1;
+	Builder=0;
+	ThreeD=1;
+	ZBuffer=1;
+	NoAutoFire=0;
+	SightDistance=800;
+	RadarDistance=0;
+	SoundCategory=veh;
+	EnergyStorage=0;
+	MetalStorage=0;
+	ExplodeAs=death;
+	SelfDestructAs=death;
+	Category=VEH NOTINF NOTAIR UNIT TARGET;
+	TEDClass=TANK;
+	leavetracks=1; 
+	trackwidth=12; 
+	trackoffset=-4; 
+	trackstrength=8; //10goliath8bulldog6stupmy4flash
+	trackstretch=1;
+	tracktype=StdTank;
+	Corpse=bluva_dead;
+	firestandorders=1;
+	StandingFireOrder=1;
+	mobilestandorders=1;
+	StandingMoveOrder=1;
+	canmove=1;
+	canpatrol=1;
+	canstop=1;
+	canguard=1;
+	MaxVelocity=2;
+	BrakeRate=0.2;
+	Acceleration=0.2;
+	TurnRate=475;
+	SteeringMode=1;
+	ShootMe=1;
+	DefaultMissionType=Standby;
+	maneuverleashlength=640;
+	MovementClass=TRACK;
+	HighTrajectory=1;
+	Weapon1=bluvawpn1;
+	Weapon2=bluvawpn2;
+	wpri_badTargetCategory=NOTAIR NOTARGET;
+	wsec_badTargetCategory=AIR NOTARGET;
+	OnlyTargetCategory1=VTOL AIR TARGET;
+	OnlyTargetCategory2=NOTAIR TARGET;
+	BadTargetCategory=NOTARGET;
+	canattack=1;
+	canFireControl=1;
+	NoChaseCategory=AIR VTOL NOTARGET;
+
+	[customParams] 
+	{
+		toggle1=2;
+		toggle1on=Volley On;
+		toggle1off=Volley Off;
+	toggle1tooltip=Anti Air or Surface to Surface Volley;
+	}
+	}
