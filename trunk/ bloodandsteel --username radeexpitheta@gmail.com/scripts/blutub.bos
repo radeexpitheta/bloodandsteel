@@ -4,7 +4,7 @@
 #include "exptype.h"
 
 piece  base, body, w1, w2, box1, box2, load_shoulder, load_Arm, unload_shoulder, unload_Arm;
-static-var  restore_delay, heading;
+static-var  restore_delay, heading, ammo, building;
 
 // Signal definitions
 #define SIG_MOVE				2
@@ -64,8 +64,31 @@ turncheck()
 			turn w2 to y-axis <0> speed <150.000000>;
 		}		
 	sleep 1000;	//check every second
-	}
+	}	
 
+}
+
+checkstatus()
+{
+	while( TRUE )
+	{
+	//check suuplies	
+		if (ammo < 50 ) 
+		{ 
+			hide box2;
+		}
+		if (ammo < 5 ) 
+			{
+			hide box1; 
+			}
+		if (ammo >= 50 ) 
+			{
+			show box1; 
+			show box2;
+			}
+	sleep 800;	//check every second 
+	}	
+sleep 5;
 }
 
 StartMoving()
@@ -94,9 +117,28 @@ StopMoving()
 
 Create()
 {
+	ammo = 100;
 	restore_delay = 3000;
 	start-script SmokeUnit();
+	start-script checkstatus();
 	return (0);
+}
+
+SetStock(newstock)// Only called when ammo is drawn, and no more than once per frame
+{
+	ammo = newstock;
+	if (ammo < 1) {return 0;}
+}
+
+Refill(RefillerID,RefillerStock)// UnitID of the refiller, how many ammo left in the refiller stock
+{
+		var refilled;
+		refilled = 0;
+		if(RefillerStock>0 && ammo<50)
+		{
+			refilled = 1;
+			++ammo;
+		}
 }
 
 SetMaxReloadTime(Func_Var_1)
@@ -116,6 +158,7 @@ RestoreAfterDelay()
 
 StartBuilding(Func_Var_1, Func_Var_2)
 {
+	if (ammo < 1) {return 0;}
 	turn load_arm to y-axis Func_Var_1 now;
 	turn load_arm to y-axis Func_Var_2 now;
 	set INBUILDSTANCE to 1;

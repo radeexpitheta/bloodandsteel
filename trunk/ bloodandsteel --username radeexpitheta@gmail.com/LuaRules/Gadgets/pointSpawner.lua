@@ -23,7 +23,7 @@ if (gadgetHandler:IsSyncedCode()) then
 
 
 local gaia=Spring.GetGaiaTeamID()
-local minDist = math.max(160,Game.extractorRadius)
+local minDist = math.max(200,Game.extractorRadius)
 
 local spawnList = {}
 
@@ -77,13 +77,13 @@ function gadget:GameFrame()
 		--	Spring.Echo(p[1],p[3])
 		end
 	end
---	if mode == "geovent" then
---		for _,f in ipairs (Spring.GetAllFeatures()) do
---			if Spring.GetFeatureDefID(f)==geovent then
---				Spring.DestroyFeature(f)
---			end
---		end		not using relics at the moment and just missing this is is the easiest fix till I look into it more
---	end
+	if mode == "geovent" then
+		for _,f in ipairs (Spring.GetAllFeatures()) do
+			if Spring.GetFeatureDefID(f)==geovent then
+				Spring.DestroyFeature(f)
+			end
+		end		
+	end
 	gadgetHandler:RemoveGadget()
 end
 

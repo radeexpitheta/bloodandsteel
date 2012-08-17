@@ -9,7 +9,7 @@ local crane = piece 'crane'
 local port = piece 'port' 
 local b1 = piece 'b1' 
 
-local emitPieces = {piece('emit04', 'emit08', 'emit012')}
+--local emitPieces = {piece('emit04', 'emit08', 'emit012')}
 local nanoNum = 1
 
 smokePiece = {base}
@@ -17,7 +17,7 @@ smokePiece = {base}
 -- Signal definitions
 local SIG_BUILD = 2
 
-local function craneAdjust()
+--[[local function craneAdjust()
 	Signal(SIG_BUILD)
 	SetSignalMask(SIG_BUILD)
 	local buildee, progress
@@ -34,7 +34,7 @@ local function craneAdjust()
 		end
 		Sleep(500)
 	end
-end
+end]]
 
 function script.Activate()
 	--StartThread(craneAdjust)
@@ -68,14 +68,14 @@ function script.Create()
 	StartThread(SmokeUnit)
 end
 
---[[function script.QueryNanoPiece()
-	nanoNum = nanoNum + 1
+function script.QueryNanoPiece()
+	--[[nanoNum = nanoNum + 1
 	if nanoNum > 3 then nanoNum = 1 end
 
 	local piece = emitPieces[nanoNum]
-	GG.LUPS.QueryNanoPiece(unitID,unitDefID,spGetUnitTeam(unitID),piece)
-	return piece
-end]]
+	GG.LUPS.QueryNanoPiece(unitID,unitDefID,spGetUnitTeam(unitID),piece)]]
+	return b1
+end
 
 function script.QueryBuildInfo()
 	return b1

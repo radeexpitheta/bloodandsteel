@@ -15,7 +15,7 @@ unitDef = {
 --  corpse              = [[DEAD]],
 	customParams        = {
 			ProvideTech = "defendable",
-			ProvideTechRange = 300,
+			ProvideTechRange = 200,
 							},
   footprintX          = 8,
   footprintZ          = 8,
