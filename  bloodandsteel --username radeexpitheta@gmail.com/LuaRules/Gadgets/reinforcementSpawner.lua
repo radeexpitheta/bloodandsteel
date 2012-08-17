@@ -11,7 +11,7 @@ function gadget:GetInfo()
 end
 
 local maxCharge=2000 --was120 
-local startCharge=1000 --was90
+local startCharge=0 --was90
 local pointCharge=.5 --was .2
 
 local blutub=UnitDefNames.blutub.id
@@ -38,7 +38,6 @@ local gentub=UnitDefNames.gentub.id
 --rename below later
 local base = UnitDefNames.base.id
 local point = UnitDefNames.point.id
-local port = UnitDefNames.port.id
 
 local CMD_RALLY=30002
 
@@ -49,62 +48,36 @@ local bases= {
 
 local unitCounts= {
 	[base]={
-		--blue
-		[bluvr]=0,
-		[bluvi]=0,
-		[bluvv]=0,
-		[bluvd]=0,	   
-		[bluva]=0,
-		[blutub]=0,
-		[bluii]=0,
-        [bluir]=0,	   
-		[bluid]=0,	   			   
-		[bluiv]=0,	   
-		[bluia]=0,	   
-		[bluar]=0,
-        [bluaa]=0,
-		[bluai]=0,	   
-		[bluav]=0,	   
-		[bluad]=0,	   
+		[bluii]=1,  
 	},
 	
-	[port]={
-		[gentub] = 0,
-	}
-	--[redbase]={     -- no second side yet
+
+	--[redbase]={  
+	-- no second side yet
 	--},
 }
-local wavesize = 8 -- how many units are spawned each wave
+local wavesize = 2 -- how many units are spawned each wave
 
 
 
 local unitWeights= {      -- Only integers should be used for the weights (not tried with floats - the sum is calculated elsewhere, so just set the relations at values your happy with.
-
-    [bluir]=10,	   
-	[bluid]=11,	   
-	[bluii]=13,	   
-	[bluiv]=10,	   
-	[bluia]=10,   
-	[blutub]=10,	   
-	[bluvr]=6,	   
-	[bluvi]=5,
+	[bluvr]=8,	   
+	[bluvi]=4,
 	[bluvd]=4,	   
 	[bluva]=4,	 	   
 	[bluvv]=4,	   
-	[bluar]=4,	   
-	[bluai]=3,	   
+	[bluar]=8,	   
+	[bluai]=4,	   
 	[bluav]=2,	   
 	[bluad]=1,	   
 	[bluaa]=1,	
-	
-	--naval units for port
-	--[navr]=10,	 
-	[gentub]=6,
-	--[navv]=6,
-	--[nava]=3,
-	--[navd]=1,
+	[bluir]=16,	   
+	[bluid]=16,	   
+	[bluii]=16,	   
+	[bluiv]=16,	   
+	[bluia]=16,   
+	[blutub]=8,	
 }
-
 
 
 
@@ -183,14 +156,11 @@ end
 local function Reinforce(team,from)
 	local sx,sy,sz = Spring.GetUnitBasePosition(from)
 	local basetype=Spring.GetUnitDefID(from)
-	-- sz=sz+16    -- this was only because Cuberor base had it's spawn slightly below middle
-	
-	-- okay, our random draft comes here
-	-- Fill the numbers in the structure I'm still using:
+	-- okay, our random draft comes here. Fill the numbers in the structure I'm still using:
 	local counts={}
 
 	for i =1, wavesize do
-	    local unitroll = math.random(weightSums[basetype])        -- our unitweights have to add up to a hundred for now - think of them as percentages
+	    local unitroll = math.random(weightSums[basetype])        -- our unitWeights have to add up to a hundred for now - think of them as percentages
 	    local oldsum = 0 -- ah, but does this get set back - yes, should do, it runs the whole thing through again
 	
 		for ud,_ in pairs(unitCounts[basetype]) do
@@ -204,43 +174,24 @@ local function Reinforce(team,from)
 			oldsum = oldsum + unitWeights[ud]  -- or does this work as += ?   -- ah in this case we need to take care about units with a value of 0... hmm, we need to end the function anyhow when the criteria is first fulfilled, as of course it's smaller than the others as well then!
 			end
 		end
-	end                      -- should work - fingers crossed !        Woot! that was the fastest and neatest piece of code I've come up with so far, I think :P!
+	end                     
 
-
---	for u,d in pairs(squads) do                             -- this is the part that did the "reinforcements" behaviour (ie filling up squads with members they'd lost)
---		if Spring.GetUnitTeam(u)==team then                 -- if this was wanted again, we'd need to uncomment here - but probably also fix up below, because I'm using counts for something quite differen then it was originally used for.
---			local ud = d.type
---			counts[ud]=(counts[ud] or 0)+1
---			for i = 1,squadSize[ud] do
---				if not d.followers[i] then
---					local nu = Spring.CreateUnit(ud,sx+i+math.random(40)-20,sy,sz+math.random(40)-20,0,team)
---					if nu then
---						GG.AddSquadUnitAt(nu,i,u)
---					end
---				end
---			end
---		end
---	end
---	for ud,_ in pairs(counts) do
---		counts[blutub]=5                Lets try the other way first, eh ?
---	end
---	counts[blutub]=5           -- access like this not possible if I remember - altogether this is not a clean way of doing things, seeing that we have a different goalin mind, but whatever
 	for ud,c in pairs(counts) do
 		if (c > 0) then                     -- flip around the meaning of counts - now the counter for how many should be built, not the limit!
    			for i = -c, -1 do                -- hack away, oh let us hack away
 				local nl
 				if (math.random() > 0.5) then                    -- 50/50 chance for units to spawn on the edges
-					nl = Spring.CreateUnit(ud,sx+math.random(80)-40,sy,sz+math.random(2)*110-165,0,team)        -- why aren't they moving anymore... cause my local is local to the if clause, idiot
+					nl = Spring.CreateUnit(ud,sx+math.random(80)-40,sy,sz+math.random(2)*110-165,0,team)        
 					--Spring.Echo(math.random(2))
 				else
 				    nl = Spring.CreateUnit(ud,sx+math.random(2)*80-120,sy,sz+math.random(110)-55,0,team)
 				end
 				if nl then
 					local fol = {}
-					for i = 1,squadSize[ud] do                                                     -- this might be acting weird - as we don't use it and I messed around above...
-						fol[i]=Spring.CreateUnit(ud,sx+i+math.random(40)-20,sy,sz+math.random(40)-20,0,team)
-					end
-					GG.RegisterSquad(ud,nl,fol)
+					--for i = 1,squadSize[ud] do                                                     -- this might be acting weird - as we don't use it and I messed around above...
+					--	fol[i]=Spring.CreateUnit(ud,sx+i+math.random(40)-20,sy,sz+math.random(40)-20,0,team)
+					--end
+					--GG.RegisterSquad(ud,nl,fol)
 					local phi = math.random()*6.284
 					local dist = math.random(100)
 					Spring.GiveOrderToUnit(nl,CMD.MOVE,{rallyPoints[from][1] + math.cos(phi)*dist,rallyPoints[from][2],rallyPoints[from][3] + math.sin(phi)*dist},{})

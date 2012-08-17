@@ -1,5 +1,5 @@
-return {
-	{
+local sidedata = {
+		{
 	name = "Coalition",
 	startUnit = "base",
 	},
@@ -12,3 +12,4 @@ return {
 	--startUnit = "base",
 	--},
 }
+return sidedata

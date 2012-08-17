@@ -83,9 +83,9 @@ local function Take(taker, ud, team, target)
 	Spring.RemoveUnitCmdDesc(taker,cmdTakeDesc)
 	Spring.InsertUnitCmdDesc(taker,cmdUntakeDesc)
 	
---	Spring.MoveCtrl.Enable(taker)
---	local x,y,z=Spring.GetUnitBasePosition(target)    -- doesn't need to beam in the middle, does it ? (or is it not clear enough otherwise ?
---	Spring.MoveCtrl.SetPosition(taker,x,y,z)          -- the problem with disabling this (in conjunction with not "stopping" units) is that they move to get out of the way of others
+Spring.MoveCtrl.Enable(taker)
+local x,y,z=Spring.GetUnitBasePosition(target)    -- doesn't need to beam in the middle, does it ? (or is it not clear enough otherwise ?
+Spring.MoveCtrl.SetPosition(taker,x,y,z)          -- the problem with disabling this (in conjunction with not "stopping" units) is that they move to get out of the way of others
 --	GG.RemoveSquadUnit(taker, ud, team)           -- this also needs to go - ya, probably, because it still counts as squad of one... doh?
 --	Spring.SetUnitNoSelect(taker,true)           we want the unit to still be selectable. But will this work cleanly ?
 end
@@ -96,7 +96,7 @@ local function Untake(unitID, ud, team)
 	
 	Spring.MoveCtrl.Enable(unitID)
 	local x,y,z=Spring.GetUnitBasePosition(takers[unitID])
-	Spring.MoveCtrl.SetPosition(unitID,x,y,z-70)
+	Spring.MoveCtrl.SetPosition(unitID,x,y,z-80)
 	Spring.MoveCtrl.Disable(unitID) -- need to switch off so they can move again ?
 	taken[takers[unitID]]=nil
 	transferList[takers[unitID]]=gaia    -- why do I get the time lag with the point disapearing in between ?

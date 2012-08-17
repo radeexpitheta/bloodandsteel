@@ -19,12 +19,12 @@ local modRules = {
 	},
 
 	CONSTRUCTION = {
-{
+		{
 	constructionDecay = 1,
 	constructionDecayTime = 0,
 	constructionDecaySpeed = 0.001,
-},
-},
+		},
+					},
 }
 
 return modRules

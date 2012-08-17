@@ -7,7 +7,7 @@
 piece  base, pelvis, torso, rgun, lgun, rbarrel, lbarrel, fp1, fp2, rflap1, rflap2, rflap3, rflap4, 
 lflap1, lflap2, lflap3, lflap4, rupleg, rloleg, rfoot, lupleg, lloleg, lfoot, rftoe, rrtoe, lftoe, lrtoe;
 
-static-var  bMoving, bAiming, Static_Var_3, restore_delay, gun1, aimer, regspeed, ready, pace;
+static-var  bMoving, bAiming, Static_Var_3, restore_delay, gun1, aimer, regspeed, ready, pace, ammo;
 
 #ifndef MAX_SPEED
 #define MAX_SPEED 75 
@@ -246,6 +246,8 @@ Create()
 	gun1 = 0;
 	ready=1;
 	aimer = 1;
+	set 1025 to 100;
+	ammo = 50;
 }
 
 StartMoving()
@@ -304,6 +306,10 @@ if (ready == 6)
 
 AimPrimary(heading, pitch)
 {
+if ((ammo < 1) && Rand( 1, 4) > 1) 
+	{
+	return 0;
+	}
 if (aimer == 2 OR aimer == 0)
 	{
 	return 0;
@@ -336,6 +342,10 @@ if (aimer == 1)
 
 AimSecondary(heading, pitch)
 {
+if ((ammo < 1) && Rand( 1, 4) > 1) 
+	{
+	return 0;
+	}
 if (aimer == 1 OR aimer == 0)
 	{
 	return 0;
@@ -378,6 +388,8 @@ AimFromSecondary(piecenum)
 
 FirePrimary()
 {
+ammo = ammo - 1;
+set 1025 to (ammo * 100) / 50;
 if ( aimer == 1)
 	{
 	if (gun1 == 1)
@@ -400,6 +412,8 @@ gun1 = 1 - gun1;
 
 Shot2()
 {
+ammo = ammo - 1;
+set 1025 to (ammo * 100) / 50;
 if (aimer == 2)
 {
 	if (gun1 == 1)
@@ -445,6 +459,18 @@ QuerySecondary(piecenum)
 	piecenum = fp2;
 	}
 
+}
+
+Refill(RefillerID,RefillerStock)// UnitID of the refiller, how many ammo left in the refiller stock
+{
+		var refilled;
+		refilled=0;
+		if(RefillerStock>0 && ammo<50)
+		{
+			refilled = 1;
+			++ammo;
+		}
+		set 1025 to (ammo * 100) / 50;
 }
 
 SweetSpot(piecenum)
