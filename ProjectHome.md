@@ -1,0 +1,1 @@
+Another Spring RTS project focused on unit micro-ing and large scale strategy with simple a resource system.
